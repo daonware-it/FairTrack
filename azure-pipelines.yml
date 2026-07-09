@@ -1,0 +1,140 @@
+# Signierter Release-Build für FairTrack.
+#
+# Voraussetzungen in Azure DevOps (einmalig, siehe docs/azure-pipelines.md):
+#   1. Library > Secure files: Upload-Keystore als `fairtrack-upload-keystore.jks`
+#   2. Library > Variable groups: Gruppe `fairtrack-signing` mit den als *secret*
+#      markierten Variablen KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
+#
+# Ergebnis: signiertes APK (Direktinstallation/Tester) und signiertes AAB
+# (Upload zu Google Play, das dort per Play App Signing neu signiert wird).
+#
+# Jira (Projekt FAIR): Die Deploy-Stage läuft als Deployment-Job gegen das
+# Environment `fairtrack-production`. Mit installierter "Azure Pipelines for
+# Jira"-App meldet Azure DevOps solche Deployments an Jira; verknüpft wird
+# über Issue-Keys (FAIR-123) in den Commit-Messages.
+
+trigger:
+  branches:
+    include:
+      - main
+  tags:
+    include:
+      - 'v*'
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: fairtrack-signing
+  - name: GRADLE_USER_HOME
+    value: $(Pipeline.Workspace)/.gradle
+
+stages:
+  - stage: Build
+    displayName: Release bauen
+    jobs:
+      - job: BuildRelease
+        displayName: Signiertes APK + AAB
+        steps:
+          - checkout: self
+            fetchDepth: 1
+
+          # Gradle 9.6 und AGP 9 verlangen mindestens JDK 17.
+          - task: JavaToolInstaller@0
+            displayName: JDK 17 auswählen
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: x64
+              jdkSourceOption: PreInstalled
+
+          # Der Agent bringt nicht zwingend genau das compileSdk mit.
+          - script: |
+              set -euo pipefail
+              SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+              yes | "$SDKMANAGER" --licenses > /dev/null
+              "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0" > /dev/null
+            displayName: Android SDK Platform 36 installieren
+
+          # Beschleunigt Folgeläufe; der Key hängt an Wrapper- und Dependency-Definition.
+          - task: Cache@2
+            displayName: Gradle-Cache
+            inputs:
+              key: 'gradle | "$(Agent.OS)" | gradle/wrapper/gradle-wrapper.properties, gradle/libs.versions.toml'
+              restoreKeys: |
+                gradle | "$(Agent.OS)"
+              path: $(GRADLE_USER_HOME)
+
+          - task: DownloadSecureFile@1
+            name: keystoreFile
+            displayName: Upload-Keystore laden
+            inputs:
+              secureFile: fairtrack-upload-keystore.jks
+
+          # Unit-Tests laufen vor dem Release-Build (z. B. OFF-Parsing-Regression).
+          - script: |
+              set -euo pipefail
+              chmod +x ./gradlew
+              ./gradlew --no-daemon testDebugUnitTest
+            displayName: Unit-Tests ausführen
+
+          # Secret-Variablen werden von Azure DevOps bewusst NICHT automatisch in die
+          # Umgebung gespiegelt – sie müssen hier explizit durchgereicht werden.
+          - script: |
+              set -euo pipefail
+              ./gradlew --no-daemon assembleRelease bundleRelease
+            displayName: Release bauen und signieren
+            env:
+              KEYSTORE_FILE: $(keystoreFile.secureFilePath)
+              KEYSTORE_PASSWORD: $(KEYSTORE_PASSWORD)
+              KEY_ALIAS: $(KEY_ALIAS)
+              KEY_PASSWORD: $(KEY_PASSWORD)
+
+          # Ein unsigniertes Artefakt wäre sonst still erfolgreich – hier bricht es ab.
+          - script: |
+              set -euo pipefail
+              APKSIGNER="$(find "$ANDROID_SDK_ROOT/build-tools" -name apksigner | sort | tail -1)"
+              "$APKSIGNER" verify --verbose --print-certs \
+                app/build/outputs/apk/release/app-release.apk
+            displayName: APK-Signatur verifizieren
+
+          - task: PublishPipelineArtifact@1
+            displayName: APK veröffentlichen
+            inputs:
+              targetPath: app/build/outputs/apk/release/app-release.apk
+              artifact: fairtrack-apk
+
+          - task: PublishPipelineArtifact@1
+            displayName: AAB veröffentlichen
+            inputs:
+              targetPath: app/build/outputs/bundle/release/app-release.aab
+              artifact: fairtrack-aab
+
+          # Verhindert, dass der Daemon den Cache mit veränderlichen Lockfiles vergiftet.
+          - script: ./gradlew --stop || true
+            displayName: Gradle-Daemon stoppen
+            condition: always()
+
+  # Läuft nur für Release-Tags (v*). Als Deployment-Job gegen ein Environment,
+  # damit die Jira-Integration den Lauf als Deployment im Projekt FAIR anzeigt.
+  - stage: Deploy
+    displayName: Production-Deployment
+    dependsOn: Build
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+    jobs:
+      - deployment: DeployProduction
+        displayName: Release für Google Play bereitstellen
+        environment: fairtrack-production
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: fairtrack-aab
+                  displayName: AAB abholen
+                - script: |
+                    set -euo pipefail
+                    echo "Release $(Build.SourceBranchName) bereit für den Play-Console-Upload:"
+                    ls -la "$(Pipeline.Workspace)/fairtrack-aab"
+                  displayName: Deployment protokollieren
