@@ -1,0 +1,506 @@
+<resources>
+    <string name="app_name">FairTrack</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_diary">Diary</string>
+    <string name="nav_statistics">Statistics</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Daily overview (v0.2.0) -->
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="previous_day">Previous day</string>
+    <string name="next_day">Next day</string>
+    <string name="back_to_today">Back to today</string>
+    <string name="select_date">Select date</string>
+    <string name="action_ok">OK</string>
+
+    <string name="kcal">kcal</string>
+    <string name="calories_consumed">Consumed</string>
+    <string name="calories_goal">Goal</string>
+    <string name="calories_remaining">Remaining</string>
+    <string name="calories_over">Over goal</string>
+    <string name="of_goal">of %1$d</string>
+
+    <string name="calories_remaining_short">remaining</string>
+    <string name="calories_over_short">over goal</string>
+    <string name="calories_percent">Reached</string>
+
+    <string name="macro_protein">Protein</string>
+    <string name="macro_carbs">Carbs</string>
+    <string name="macro_fat">Fat</string>
+    <string name="grams_short">%1$d g</string>
+    <string name="grams_of_goal">%1$d / %2$d g</string>
+    <string name="percent_short">%1$d %%</string>
+    <!-- Per-entry macros, coloured, e.g. "Protein: 6 g" -->
+    <string name="entry_macro_named">%1$s: %2$d g</string>
+
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_snack">Snacks</string>
+    <string name="meal_empty">Nothing logged yet</string>
+    <string name="add_entry">Add entry</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="delete_entry_title">Delete entry?</string>
+    <string name="delete_entry_message">Do you really want to delete \"%1$s\" from the diary?</string>
+    <string name="action_delete">Delete</string>
+    <string name="edit_entry">Edit entry</string>
+    <string name="edit_entry_title">Edit entry</string>
+    <string name="action_save">Save</string>
+
+    <!-- Quick add dialog (temporary until search/barcode) -->
+    <string name="quick_add_title">Add entry</string>
+    <string name="quick_add_name">Name</string>
+    <string name="quick_add_amount">Amount (g)</string>
+    <string name="quick_add_amount_ml">Amount (ml)</string>
+    <!-- Amount label with dynamic unit symbol (v0.11.0), e.g. "Amount (oz)" -->
+    <string name="amount_label_with_unit">Amount (%1$s)</string>
+    <string name="unit_label">Unit</string>
+    <string name="unit_grams">Grams (g)</string>
+    <string name="unit_milliliters">Milliliters (ml)</string>
+    <string name="quick_add_kcal">Calories / 100 g</string>
+    <string name="quick_add_protein">Protein / 100 g</string>
+    <string name="quick_add_carbs">Carbs / 100 g</string>
+    <string name="quick_add_fat">Fat / 100 g</string>
+    <string name="quick_add_optional_hint">Macros are optional</string>
+    <string name="action_add">Add</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Barcode scanner (v0.3.0) -->
+    <string name="scanner_title">Scan barcode</string>
+    <string name="scanner_hint">Position the barcode inside the frame</string>
+    <string name="scanner_close">Close</string>
+    <string name="scanner_looking_up">Looking up product…</string>
+    <string name="scanner_error_network">No connection. The product could not be retrieved.</string>
+    <string name="scanner_not_found">Product not found. Please enter it manually.</string>
+    <string name="scanner_permission_title">Camera access required</string>
+    <string name="scanner_permission_rationale">FairTrack needs the camera to scan barcodes.</string>
+    <string name="scanner_grant_permission">Allow camera</string>
+    <string name="scanner_confirm_title">Confirm product</string>
+    <string name="scanner_meal_label">Meal</string>
+    <string name="scanner_brand">Brand</string>
+    <string name="action_scan">Scan</string>
+    <string name="action_retry">Try again</string>
+
+    <!-- Search (v0.3.0: scan entry only; full-text search follows v0.4.0) -->
+    <string name="search_scan_button">Scan barcode</string>
+    <string name="search_scan_subtitle">Scan a product and add its calories instantly</string>
+    <string name="search_target_label">Add to</string>
+    <string name="search_manual_button">Add manually</string>
+
+    <!-- Onboarding / goals (TDEE) -->
+    <string name="onboarding_title">Your profile</string>
+    <string name="onboarding_subtitle">For personalised calorie and macro goals</string>
+    <string name="onboarding_weight">Weight (kg)</string>
+    <string name="onboarding_height">Height (cm)</string>
+    <string name="onboarding_age">Age (years)</string>
+    <string name="onboarding_sex">Sex</string>
+    <string name="sex_male">Male</string>
+    <string name="sex_female">Female</string>
+    <string name="onboarding_activity">Activity level</string>
+    <string name="activity_sedentary">Sedentary (desk job)</string>
+    <string name="activity_light">Lightly active</string>
+    <string name="activity_moderate">Moderately active</string>
+    <string name="activity_active">Very active</string>
+    <string name="activity_very_active">Extremely active</string>
+    <string name="onboarding_goal">Goal</string>
+    <string name="goal_lose">Lose weight</string>
+    <string name="goal_maintain">Maintain weight</string>
+    <string name="goal_gain">Build muscle</string>
+    <string name="onboarding_result">Daily goal: %1$d kcal · %2$d g protein · %3$d g carbs · %4$d g fat</string>
+    <string name="onboarding_finish">Let\'s go</string>
+    <string name="onboarding_save">Save</string>
+
+    <!-- Onboarding: target weight + manual goal overrides (v0.9.0) -->
+    <string name="onboarding_target_weight">Target weight (kg)</string>
+    <string name="onboarding_manual_title">Adjust goals manually</string>
+    <string name="onboarding_manual_hint">Leave empty = calculated automatically from TDEE</string>
+    <string name="onboarding_manual_calories">Calorie goal (kcal)</string>
+    <string name="onboarding_manual_protein">Protein (g)</string>
+    <string name="onboarding_manual_carbs">Carbs (g)</string>
+    <string name="onboarding_manual_fat">Fat (g)</string>
+    <string name="onboarding_macro_percent">%1$d %% protein · %2$d %% carbs · %3$d %% fat</string>
+
+    <!-- Onboarding: BMI + healthy weight range -->
+    <string name="onboarding_bmi">BMI: %1$s – %2$s</string>
+    <string name="onboarding_bmi_detail">Healthy weight for you: %1$d–%2$d kg · Recommendation: approx. %3$d kg</string>
+    <string name="bmi_underweight">Underweight</string>
+    <string name="bmi_normal">Normal weight</string>
+    <string name="bmi_overweight">Overweight</string>
+    <string name="bmi_obese">Obese</string>
+    <string name="onboarding_target_weight_too_low">Too low: below %1$d kg (BMI 18.5) would be harmful to your health</string>
+
+    <!-- Onboarding: plausibility limits for the inputs -->
+    <string name="onboarding_weight_range">Please enter a realistic value (30–300 kg)</string>
+    <string name="onboarding_height_range">Please enter a realistic value (100–250 cm)</string>
+    <string name="onboarding_age_range">Please enter a realistic value (10–120 years)</string>
+    <string name="onboarding_manual_calories_range">Please enter a value between 1200 and 10000 kcal</string>
+
+    <!-- Settings -->
+    <string name="settings_edit_goals">Edit goals &amp; profile</string>
+    <string name="settings_goals_subtitle">Adjust weight, activity and goal</string>
+
+    <!-- Settings: appearance, units, language, data (v0.11.0) -->
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_general">General</string>
+    <string name="settings_section_data">Data</string>
+
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_subtitle">Light, dark or follow the system</string>
+    <string name="settings_theme_dialog_title">Choose theme</string>
+    <string name="theme_auto">Automatic (system)</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="settings_dynamic_color">Material You</string>
+    <string name="settings_dynamic_color_subtitle">Use colours from your wallpaper</string>
+    <string name="settings_dynamic_color_unavailable">Available from Android 12</string>
+
+    <string name="settings_units">Units</string>
+    <string name="settings_units_subtitle">Measurement system for amounts and weight</string>
+    <string name="settings_units_dialog_title">Choose units</string>
+    <string name="unit_metric">Metric (g, ml, kg)</string>
+    <string name="unit_imperial">Imperial (oz, fl oz, lb)</string>
+
+    <string name="settings_language">Language</string>
+    <string name="settings_language_subtitle">Choose the app language</string>
+    <string name="settings_language_dialog_title">Choose language</string>
+    <string name="language_system">System</string>
+    <string name="language_de">German</string>
+    <string name="language_en">English</string>
+    <string name="language_es">Spanish</string>
+
+    <string name="settings_reset">Delete all data</string>
+    <string name="settings_reset_subtitle">Reset diary, foods, weight and water</string>
+    <string name="settings_reset_dialog_title">Delete all data?</string>
+    <string name="settings_reset_dialog_message">This will permanently delete all entries, your own foods, dishes, templates and your profile. This action cannot be undone.</string>
+    <string name="settings_reset_confirm">Delete</string>
+
+    <!-- Weight display, imperial (v0.11.0) -->
+    <string name="statistics_weight_delta_to_goal_generic">%1$s left to your goal</string>
+
+    <!-- Statistics: weight tracking &amp; history (v0.9.0) -->
+    <string name="statistics_title">Statistics</string>
+    <string name="statistics_weight_title">Weight history</string>
+    <string name="statistics_current_weight">Current</string>
+    <string name="statistics_target_weight">Goal</string>
+    <string name="statistics_target_none">No target weight set</string>
+    <string name="statistics_no_weight">No weight entries yet. Log your weight to see the history.</string>
+    <string name="statistics_log_weight">Log weight</string>
+    <string name="statistics_weight_input">Weight (kg)</string>
+    <string name="statistics_weight_today">For today</string>
+    <string name="statistics_weight_save">Save</string>
+    <string name="statistics_weight_kg">%1$s kg</string>
+    <string name="statistics_weight_delta_to_goal">%1$s kg left to your goal</string>
+    <string name="statistics_weight_at_goal">Target weight reached</string>
+    <string name="statistics_entries_title">Entries</string>
+    <string name="statistics_delete_weight">Delete weight entry</string>
+
+    <!-- Statistics: body measurements tracking &amp; history (v0.12.0) -->
+    <string name="body_section_title">Body measurements</string>
+    <string name="body_input_hint">Enter the measurements you took today (only filled fields are saved).</string>
+    <string name="body_field_label">%1$s (%2$s)</string>
+    <string name="body_measure_waist">Waist</string>
+    <string name="body_measure_bodyfat">Body fat</string>
+    <string name="body_measure_chest">Chest</string>
+    <string name="body_measure_arm">Arm</string>
+    <string name="body_save">Save</string>
+    <string name="body_no_data">Not enough data for this measurement yet. Enter at least two values to see the trend.</string>
+    <string name="body_entries_title">Entries</string>
+    <string name="body_delete">Delete body measurement entry</string>
+
+    <!-- Statistics: calories, macros &amp; streak (v0.8.0) -->
+    <string name="statistics_calories_title">Calories</string>
+    <string name="statistics_week_title">Last 7 days</string>
+    <string name="statistics_no_calorie_data">No entries yet. Log meals to see your history.</string>
+    <string name="statistics_month_avg_title">Ø kcal/day</string>
+    <string name="statistics_month_avg_subtitle">Average over %1$d logged days (last 30 days)</string>
+    <string name="statistics_month_avg_none">No logged days in the last month yet</string>
+    <string name="statistics_streak_title">Streak</string>
+    <string name="statistics_streak_none">No streak yet – log something today!</string>
+    <string name="statistics_macro_title">Macro breakdown (7 days)</string>
+    <string name="statistics_macro_empty">No entries in the last 7 days yet.</string>
+    <string name="statistics_macro_protein">Protein</string>
+    <string name="statistics_macro_carbs">Carbs</string>
+    <string name="statistics_macro_fat">Fat</string>
+    <string name="statistics_macro_value">%1$d g · %2$d %%</string>
+    <string name="statistics_macro_total">7 days</string>
+    <string name="statistics_kcal">%1$d kcal</string>
+
+    <!-- Fruit &amp; vegetables: produce catalogue (Open Food Facts, offline) -->
+    <string name="produce_title">Fruit &amp; vegetables</string>
+    <string name="produce_choose_group">What would you like to add?</string>
+    <string name="produce_choose_category">Choose category</string>
+    <string name="produce_kcal_per_100g">%1$d kcal / 100 g</string>
+    <string name="search_produce_button">Fruit &amp; vegetables</string>
+
+    <string name="produce_group_fruit">Fruit</string>
+    <string name="produce_group_vegetable">Vegetables</string>
+
+    <string name="produce_cat_berries">Berries</string>
+    <string name="produce_cat_pome">Pome fruit</string>
+    <string name="produce_cat_stone">Stone fruit</string>
+    <string name="produce_cat_citrus">Citrus fruit</string>
+    <string name="produce_cat_exotic">Exotic fruit</string>
+    <string name="produce_cat_melon">Melons</string>
+    <string name="produce_cat_leafy">Leafy greens</string>
+    <string name="produce_cat_cabbage">Brassicas</string>
+    <string name="produce_cat_root">Root &amp; tuber vegetables</string>
+    <string name="produce_cat_fruitveg">Fruiting vegetables</string>
+    <string name="produce_cat_onion">Alliums</string>
+    <string name="produce_cat_legume">Legumes</string>
+    <string name="produce_cat_mushroom">Mushrooms</string>
+
+    <!-- My foods (v0.5.0) -->
+    <string name="myfoods_title">My foods</string>
+    <string name="search_myfoods_button">My foods</string>
+    <string name="myfoods_tab_foods">Foods</string>
+    <string name="myfoods_tab_dishes">Dishes</string>
+    <string name="myfoods_search">Search</string>
+    <string name="myfoods_new_food">New food</string>
+    <string name="myfoods_new_dish">New dish</string>
+    <string name="myfoods_empty_foods">No foods of your own yet. Create one to see it here.</string>
+    <string name="myfoods_empty_dishes">No dishes yet. Create a recipe to see it here.</string>
+    <string name="myfoods_kcal_per_100g">%1$d kcal / 100 g</string>
+    <string name="myfoods_per_serving">%1$d kcal / serving</string>
+    <string name="myfoods_ingredient_count">%1$d ingredients</string>
+    <string name="myfoods_servings_label">Servings</string>
+    <string name="myfoods_more_actions">More actions</string>
+    <string name="myfoods_action_edit">Edit</string>
+    <string name="myfoods_delete_food_title">Delete food?</string>
+    <string name="myfoods_delete_food_message">Do you really want to delete \"%1$s\"?</string>
+    <string name="myfoods_delete_dish_title">Delete dish?</string>
+    <string name="myfoods_delete_dish_message">Do you really want to delete \"%1$s\"?</string>
+    <string name="myfoods_add_dish_title">Add dish</string>
+
+    <!-- Food editor (v0.5.0) -->
+    <string name="edit_food_new_title">New food</string>
+    <string name="edit_food_edit_title">Edit food</string>
+    <string name="edit_food_name">Name</string>
+    <string name="edit_food_brand">Brand (optional)</string>
+    <string name="edit_food_beverage">Beverage (log in ml)</string>
+    <string name="edit_food_portions">Portions</string>
+    <string name="edit_food_portions_hint">Optional quick picks, e.g. \"Slice\" = 25 g</string>
+    <string name="edit_food_add_portion">Add portion</string>
+    <string name="edit_food_portion_label">Label</string>
+    <string name="edit_food_portion_grams">Grams</string>
+    <string name="edit_food_remove_portion">Remove portion</string>
+
+    <!-- Favorites &amp; templates (v0.6.0) -->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorite_add">Mark as favorite</string>
+    <string name="favorite_remove">Remove favorite</string>
+    <string name="recent_eaten_title">Recently eaten</string>
+    <string name="templates_title">Meal templates</string>
+    <string name="templates_button">Templates</string>
+    <string name="templates_empty">No templates yet. Save a meal from the menu of its meal section on the home screen.</string>
+    <string name="templates_item_count">%1$d entries · %2$d kcal</string>
+    <string name="templates_apply_hint">Tapping adds all entries to the selected meal.</string>
+    <string name="template_delete">Delete template</string>
+    <string name="template_delete_title">Delete template?</string>
+    <string name="template_delete_message">Do you really want to delete \"%1$s\"?</string>
+    <string name="save_as_template">Save as template</string>
+    <string name="save_template_title">Save as template</string>
+    <string name="save_template_name">Template name</string>
+    <string name="meal_more_actions">More actions</string>
+
+    <!-- Water tracker (v0.7.0) -->
+    <string name="water_title">Water</string>
+    <string name="water_unit_ml">ml</string>
+    <string name="water_amount_of_goal">%1$d / %2$d ml</string>
+    <string name="water_add_amount">+%1$d ml</string>
+    <string name="water_reset">Reset</string>
+    <string name="water_edit_goal">Edit daily goal</string>
+    <string name="water_goal_dialog_title">Daily water goal</string>
+    <string name="water_goal_dialog_label">Goal in ml</string>
+    <string name="water_reminder_label">Drink reminder</string>
+    <string name="water_reminder_hours">%1$d h</string>
+    <string name="water_reminder_channel_name">Drink reminder</string>
+    <string name="water_reminder_channel_desc">Reminds you regularly to drink water.</string>
+    <string name="water_reminder_notif_title">Time to drink 💧</string>
+    <string name="water_reminder_notif_text">Drink a glass of water and keep an eye on your daily goal.</string>
+
+    <!-- Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_close">Close</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_remove">Remove</string>
+
+    <!-- Placeholder screens -->
+    <!-- About / data sources (v1.0.0) -->
+    <string name="settings_section_info">Info</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_subtitle">Version and data sources</string>
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_intro">FairTrack is a calorie tracker that works without an account. All your entries stay on your device.</string>
+    <string name="about_section_sources">Nutrition data</string>
+    <string name="about_section_activity">Activity data</string>
+    <string name="about_off_name">Open Food Facts</string>
+    <string name="about_off_description">Products, barcodes and nutrition facts come from the open database of Open Food Facts, a non-profit collaborative project.</string>
+    <string name="about_off_license">Data under Open Database License (ODbL) 1.0, product images under CC BY-SA 3.0.</string>
+    <string name="about_bls_name">German Nutrient Database (BLS) 4.0</string>
+    <string name="about_bls_description">Vitamins and minerals for basic foods such as raw fruit and vegetables come from the BLS published by the Max Rubner Institute.</string>
+    <string name="about_bls_license">Licensed under CC BY 4.0.</string>
+    <string name="about_health_connect_name">Health Connect</string>
+    <string name="about_health_connect_description">FairTrack can read steps and burned calories from Health Connect. You choose which apps contribute in the settings.</string>
+    <string name="about_disclaimer">Nutrition values may differ from those printed on the packaging. FairTrack is not a substitute for medical advice.</string>
+
+    <!-- Diary: multi-day history (v0.15.0) -->
+    <string name="diary_kcal_of_goal">%1$d / %2$d kcal</string>
+    <string name="diary_macro_summary">P %1$d g · C %2$d g · F %3$d g</string>
+    <string name="diary_empty_title">No history yet</string>
+    <string name="diary_empty_hint">Log some meals — your last 90 days will show up here.</string>
+
+    <string name="placeholder_coming_soon">Coming soon</string>
+    <string name="placeholder_subtitle">This feature is in the works.</string>
+
+    <!-- Home screen widgets (v0.10.0) -->
+    <string name="widget_calories_label">Calories &amp; macros</string>
+    <string name="widget_calories_compact_label">Calories compact</string>
+    <string name="widget_water_label">Water</string>
+    <string name="widget_calories_title">Calories</string>
+    <string name="widget_calories_value">%1$d / %2$d kcal</string>
+    <string name="widget_macro_protein">P %1$d g</string>
+    <string name="widget_macro_carbs">C %1$d g</string>
+    <string name="widget_macro_fat">F %1$d g</string>
+    <string name="widget_water_title">Water</string>
+    <string name="widget_water_value">%1$d / %2$d ml</string>
+    <string name="widget_water_add">+250 ml</string>
+
+    <!-- Dish editor + ingredients (v0.11.0, extracted from hardcoded literals) -->
+    <string name="editdish_edit_title">Edit dish</string>
+    <string name="editdish_name">Dish name</string>
+    <string name="editdish_servings">Makes servings</string>
+    <string name="editdish_total_kcal">Total: %1$s kcal</string>
+    <string name="editdish_macros_line">P %1$s g · C %2$s g · F %3$s g</string>
+    <string name="editdish_per_serving">Per serving (%1$s): %2$s kcal</string>
+    <string name="editdish_ingredients">Ingredients</string>
+    <string name="editdish_no_ingredients">No ingredients yet. Add the first one below.</string>
+    <string name="editdish_online_search">Search online</string>
+    <string name="editdish_barcode">Barcode</string>
+    <string name="editdish_manual">Manual</string>
+    <string name="editdish_my_foods">My foods</string>
+    <string name="editdish_add_ingredient">Add ingredient</string>
+    <string name="editdish_edit_ingredient">Edit ingredient</string>
+    <string name="editdish_kcal_per_100g_label">kcal / 100 g</string>
+    <string name="editdish_macros_optional">Macros per 100 g (optional)</string>
+    <string name="editdish_protein">Protein</string>
+    <string name="editdish_carbs">Carbs</string>
+    <string name="editdish_fat">Fat</string>
+    <string name="editdish_min_chars">Enter at least 2 characters.</string>
+    <string name="editdish_no_results">No results.</string>
+    <string name="editdish_network_error">No connection. Please try again later.</string>
+    <string name="editdish_kcal_per_100g_value">%1$s kcal / 100 g</string>
+    <string name="editdish_food_macros">%1$s kcal · P %2$s g · C %3$s g · F %4$s g</string>
+    <string name="editdish_from_my_foods">From my foods</string>
+    <string name="editdish_no_own_foods">You haven\'t created any foods of your own yet.</string>
+
+    <!-- Search (v0.11.0, extracted from hardcoded literals) -->
+    <string name="search_food_hint">Search foods</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_empty_title">No results</string>
+    <string name="search_empty_hint">Try a different search term.</string>
+    <string name="search_network_title">No connection</string>
+    <string name="search_network_hint">Please check your internet connection.</string>
+    <string name="search_recent_searches">Recent searches</string>
+    <string name="search_clear_history">Clear history</string>
+
+    <!-- Portion quick-pick label (v0.11.0), e.g. "Slice (25 g)" -->
+    <string name="portion_label_format">%1$s (%2$s g)</string>
+
+    <!-- Statistics: streak text (v0.8.0) -->
+    <plurals name="statistics_streak_days">
+        <item quantity="one">🔥 %1$d day in a row</item>
+        <item quantity="other">🔥 %1$d days in a row</item>
+    </plurals>
+
+    <!-- Micronutrients (v0.10.0) -->
+    <string name="micro_unit_mg">mg</string>
+    <string name="micro_unit_ug">µg</string>
+    <string name="micro_vitamin_a">Vitamin A</string>
+    <string name="micro_vitamin_d">Vitamin D</string>
+    <string name="micro_vitamin_e">Vitamin E</string>
+    <string name="micro_vitamin_c">Vitamin C</string>
+    <string name="micro_vitamin_b6">Vitamin B6</string>
+    <string name="micro_vitamin_b12">Vitamin B12</string>
+    <string name="micro_folate">Folate</string>
+    <string name="micro_calcium">Calcium</string>
+    <string name="micro_iron">Iron</string>
+    <string name="micro_magnesium">Magnesium</string>
+    <string name="micro_zinc">Zinc</string>
+    <string name="micro_potassium">Potassium</string>
+    <string name="micro_phosphorus">Phosphorus</string>
+    <string name="micro_iodine">Iodine</string>
+    <string name="micro_section_title">Vitamins &amp; minerals (per 100 g)</string>
+    <string name="statistics_micro_section_title">Micronutrients</string>
+    <string name="statistics_micro_title">Daily coverage</string>
+    <string name="statistics_micro_subtitle">Share of daily reference intake (EU NRV) today</string>
+    <string name="statistics_micro_empty">No micronutrient data for today yet.</string>
+    <string name="statistics_micro_source">Source: Open Food Facts &amp; BLS (Max Rubner-Institut)</string>
+
+    <!-- Fasting timer (v0.13.0) -->
+    <string name="fasting_title">Fasting</string>
+    <string name="fasting_entry_subtitle">Intermittent fasting with a timer</string>
+    <string name="fasting_start">Start fasting</string>
+    <string name="fasting_stop">End fasting</string>
+    <string name="fasting_idle">Ready</string>
+    <string name="fasting_goal_reached">Goal reached 🎉</string>
+    <string name="fasting_target_hours">Goal: %1$d h</string>
+    <string name="fasting_window_range">%1$s – %2$s</string>
+    <string name="fasting_preset_title">Method</string>
+    <string name="fasting_preset_locked">Preset locked while a fast is running.</string>
+    <string name="fasting_day_based_hint">5:2 is day-based: eat ~500–600 kcal on 2 days per week, normally otherwise. No hourly timer.</string>
+    <string name="fasting_reminder_label">End-of-fast reminder</string>
+    <string name="fasting_reminder_hint">Get notified when your fasting window ends.</string>
+    <string name="fasting_history_title">History (%1$d)</string>
+    <string name="fasting_history_entry">%1$s · %2$s</string>
+    <string name="fasting_reminder_channel_name">Fasting reminder</string>
+    <string name="fasting_reminder_channel_desc">Notifies you when the fasting goal is reached.</string>
+    <string name="fasting_reminder_notif_title">Fasting goal reached ⏱️</string>
+    <string name="fasting_reminder_notif_text">Your fasting window is over – time for the eating window.</string>
+    <string name="fasting_preset_16_8">16:8</string>
+    <string name="fasting_preset_18_6">18:6</string>
+    <string name="fasting_preset_14_10">14:10</string>
+    <string name="fasting_preset_20_4">20:4</string>
+    <string name="fasting_preset_omad">OMAD</string>
+    <string name="fasting_preset_5_2">5:2</string>
+    <string name="fasting_desc_16_8">Leangains – fast for 16 h, eat within 8 h. The most popular and best-studied protocol; usually you skip breakfast. A great entry point.</string>
+    <string name="fasting_desc_18_6">Fast for 18 h, eat within 6 h. A bit stricter than 16:8, may boost fat loss and autophagy. For intermediate practitioners.</string>
+    <string name="fasting_desc_14_10">Fast for 14 h, eat within 10 h. A gentle, everyday-friendly entry point for beginners.</string>
+    <string name="fasting_desc_20_4">Warrior Diet – fast for 20 h, eat within 4 h (one main meal). Advanced; make sure to get enough protein and micronutrients.</string>
+    <string name="fasting_desc_omad">One Meal A Day – fast for about 23 h, one meal per day. Very advanced; meeting nutrient needs in a single meal is challenging.</string>
+    <string name="fasting_desc_5_2">Eat normally on 5 days, reduce to ~500–600 kcal on 2 non-consecutive days. Day-based – no hourly countdown.</string>
+    <string name="fasting_ongoing_channel_name">Fasting in progress</string>
+    <string name="fasting_ongoing_channel_desc">Keeps the fasting timer visible in the status bar.</string>
+    <string name="fasting_ongoing_title">Fasting %1$s</string>
+    <string name="fasting_ongoing_text">Time left until the eating window</string>
+    <string name="fasting_ongoing_reached_text">Goal reached – eating window is open</string>
+
+    <!-- Health Connect import: steps + active calories (v0.14.0) -->
+    <string name="activity_title">Activity</string>
+    <string name="activity_steps">Steps</string>
+    <string name="activity_active_kcal">%1$d kcal burned actively</string>
+    <string name="activity_budget_added">+%1$d kcal added to your daily budget</string>
+    <string name="activity_unavailable_body">Health Connect is not available on this device. Install it to import your steps and burned calories.</string>
+    <string name="activity_install_health_connect">Install Health Connect</string>
+    <string name="activity_connect_body">Connect Health Connect to import your steps and active calories.</string>
+    <string name="activity_connect">Connect</string>
+    <string name="activity_rationale_title">Activity data in FairTrack</string>
+    <string name="activity_rationale_body">FairTrack reads your steps and actively burned calories from Health Connect to show them on the home screen and – if you enable it – to adjust your daily calorie budget. The data stays on your device and is never shared with third parties.</string>
+    <string name="activity_source_health_connect">Health Connect</string>
+
+    <!-- Settings: activity (v0.14.0) -->
+    <string name="settings_section_activity">Activity</string>
+    <string name="settings_activity_source">Data source</string>
+    <string name="settings_activity_source_dialog_title">Choose data source</string>
+    <string name="settings_activity_budget">Add active calories to budget</string>
+    <string name="settings_activity_budget_subtitle">Adds actively burned calories to your daily budget. Only useful if your activity level is set to “sedentary” – otherwise everyday movement is already included and would be counted twice.</string>
+    <string name="settings_activity_apps">Apps as data source</string>
+    <string name="settings_activity_apps_subtitle">Choose which apps contribute. With no selection, all count. Multiple apps can write the same period and add up – narrow the selection to avoid double counting.</string>
+    <string name="settings_activity_apps_none">No app has written activity data to Health Connect yet. Once apps like Fitbit, Garmin or Samsung Health provide data, they will appear here.</string>
+</resources>

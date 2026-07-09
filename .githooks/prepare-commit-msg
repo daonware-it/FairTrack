@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Prepends the Jira issue key taken from the current branch name.
+#
+#   branch  FAIR-12-fasting-countdown
+#   input   "fix negative countdown"
+#   result  "FAIR-12 fix negative countdown"
+#
+# Does nothing when the branch carries no key, when the key is already
+# present, or for merge/squash/fixup commits.
+
+msg_file="$1"
+msg_source="$2"
+
+case "$msg_source" in
+    merge|squash) exit 0 ;;
+esac
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
+
+# Issue key must be uppercase: PROJECT-123 at the start of the branch name.
+key=$(printf '%s' "$branch" | sed -n 's/^\([A-Z][A-Z0-9]*-[0-9][0-9]*\).*/\1/p')
+[ -z "$key" ] && exit 0
+
+subject=$(sed -n '1p' "$msg_file")
+
+# Leave amends/rewords that already reference the key untouched.
+if printf '%s' "$subject" | grep -qE "(^|[^A-Z0-9])${key}([^0-9]|$)"; then
+    exit 0
+fi
+
+# Never rewrite autosquash subjects — git matches them literally.
+if printf '%s' "$subject" | grep -qE '^(fixup|squash)!'; then
+    exit 0
+fi
+
+tmp="${msg_file}.jira"
+{ printf '%s ' "$key"; cat "$msg_file"; } > "$tmp" && mv "$tmp" "$msg_file"

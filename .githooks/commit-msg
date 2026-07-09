@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Rejects commits whose subject carries no Jira issue key, so that no work
+# silently escapes the FairTrack board.
+#
+# Bypass deliberately with:  git commit --no-verify
+
+msg_file="$1"
+subject=$(sed -n '1p' "$msg_file")
+
+# Machine-generated subjects have no issue of their own.
+case "$subject" in
+    Merge*|Revert*|"fixup!"*|"squash!"*) exit 0 ;;
+esac
+
+if printf '%s' "$subject" | grep -qE '(^|[^A-Z0-9])(FAIR|ETS)-[0-9]+([^0-9]|$)'; then
+    exit 0
+fi
+
+cat >&2 <<'EOF'
+✗ Commit rejected: the subject line carries no Jira issue key.
+
+  Expected an uppercase key such as FAIR-12, for example:
+
+      FAIR-12 fix negative fasting countdown
+
+  Name the branch after the issue (FAIR-12-fasting-countdown) and the key
+  is inserted for you automatically.
+
+  Intentionally unrelated to an issue?  git commit --no-verify
+EOF
+exit 1

@@ -1,0 +1,21 @@
+# Normalise line endings in the repository to LF.
+* text=auto
+
+# The Gradle wrapper script is executed by a POSIX shell and must keep LF,
+# otherwise cloning on Linux/macOS yields "bad interpreter: No such file".
+gradlew text eol=lf
+
+# Windows-only scripts keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets must never be normalised.
+*.png binary
+*.jpg binary
+*.webp binary
+*.jar binary
+*.keystore binary
+*.jks binary
+
+# Git hooks are POSIX shell scripts and must keep LF.
+.githooks/** text eol=lf

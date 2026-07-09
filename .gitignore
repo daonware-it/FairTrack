@@ -1,0 +1,36 @@
+### Android Studio defaults ###
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+### Build outputs (module-level, not just root) ###
+build/
+app/build/
+out/
+release/
+
+### Signing material & secrets — never commit ###
+*.jks
+*.keystore
+keystore.properties
+google-services.json
+
+### Kotlin / KSP ###
+.kotlin/
+
+### Logs & OS cruft ###
+*.log
+Thumbs.db
+desktop.ini
+
+### Local tooling & private reference material ###
+.claude/
+.run/
+REF/

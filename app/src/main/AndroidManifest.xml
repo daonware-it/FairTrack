@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Barcode-Scanner (v0.3.0) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+
+    <!-- Trink-Erinnerung (v0.7.0), ab Android 13 zur Laufzeit angefragt -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Fasten-Ongoing-Notification nach Reboot wiederherstellen (v0.13.0) -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Health Connect: Import von Schritten + Aktivkalorien.
+         Die connect-client-Library hat minSdk 26; die App bleibt auf minSdk 24.
+         overrideLibrary erlaubt den Merge, jeder Aufruf ist zusätzlich hart per
+         Build.VERSION.SDK_INT >= O geschützt (Feature wird auf 24/25 ausgeblendet). -->
+    <uses-sdk tools:overrideLibrary="androidx.health.connect.client" />
+
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
+    <uses-permission android:name="android.permission.health.READ_TOTAL_CALORIES_BURNED" />
+
+    <!-- Sichtbarkeit der Health-Connect-App (sonst schlägt getSdkStatus fehl). -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
+
+    <application
+        android:name=".FairTrackApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:localeConfig="@xml/locales_config"
+        android:theme="@style/Theme.FairTrack">
+
+        <!-- ML Kit Barcode-Modell beim Install vorab laden -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+        <!-- Per-App-Sprachumschaltung (AndroidX per-app language, v0.11.0):
+             AppCompat persistiert die gewählte Locale selbst (autoStore-Backport). -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FairTrack">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Home-Screen-Widgets (Jetpack Glance, v0.10.0) -->
+        <receiver
+            android:name=".ui.widget.CalorieWidgetReceiver"
+            android:label="@string/widget_calories_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/calorie_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".ui.widget.CalorieCompactWidgetReceiver"
+            android:label="@string/widget_calories_compact_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/calorie_compact_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".ui.widget.WaterWidgetReceiver"
+            android:label="@string/widget_water_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/water_widget_info" />
+        </receiver>
+
+        <!-- Fasten (v0.13.0): "Fasten beenden"-Action der Ongoing-Notification.
+             Nicht exported – nur der App-eigene PendingIntent löst ihn aus. -->
+        <receiver
+            android:name=".work.FastingStopReceiver"
+            android:exported="false" />
+
+        <!-- Fasten (v0.13.0): Ongoing-Notification nach Geräteneustart neu posten. -->
+        <receiver
+            android:name=".work.FastingBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Health Connect: Datenschutz-Rationale. Health Connect verlinkt hierauf
+             ("Datenschutzerklärung lesen") im Berechtigungsdialog. -->
+        <activity
+            android:name=".ui.activity.HealthPermissionsRationaleActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.health.connect.action.SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+
+        <!-- Health Connect (Android 14+): dieselbe Rationale via Berechtigungs-
+             nutzungs-Intent. -->
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:targetActivity=".ui.activity.HealthPermissionsRationaleActivity"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+
+</manifest>

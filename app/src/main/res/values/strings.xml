@@ -1,0 +1,506 @@
+<resources>
+    <string name="app_name">FairTrack</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Suche</string>
+    <string name="nav_diary">Tagebuch</string>
+    <string name="nav_statistics">Statistiken</string>
+    <string name="nav_settings">Einstellungen</string>
+
+    <!-- Tagesübersicht (v0.2.0) -->
+    <string name="today">Heute</string>
+    <string name="yesterday">Gestern</string>
+    <string name="tomorrow">Morgen</string>
+    <string name="previous_day">Vorheriger Tag</string>
+    <string name="next_day">Nächster Tag</string>
+    <string name="back_to_today">Zurück zu heute</string>
+    <string name="select_date">Datum wählen</string>
+    <string name="action_ok">OK</string>
+
+    <string name="kcal">kcal</string>
+    <string name="calories_consumed">Verbraucht</string>
+    <string name="calories_goal">Ziel</string>
+    <string name="calories_remaining">Übrig</string>
+    <string name="calories_over">Über Ziel</string>
+    <string name="of_goal">von %1$d</string>
+
+    <string name="calories_remaining_short">übrig</string>
+    <string name="calories_over_short">über Ziel</string>
+    <string name="calories_percent">Erreicht</string>
+
+    <string name="macro_protein">Protein</string>
+    <string name="macro_carbs">Kohlenhydrate</string>
+    <string name="macro_fat">Fett</string>
+    <string name="grams_short">%1$d g</string>
+    <string name="grams_of_goal">%1$d / %2$d g</string>
+    <string name="percent_short">%1$d %%</string>
+    <!-- Makros pro Eintrag: farbig, z. B. "Protein: 6 g" -->
+    <string name="entry_macro_named">%1$s: %2$d g</string>
+
+    <string name="meal_breakfast">Frühstück</string>
+    <string name="meal_lunch">Mittagessen</string>
+    <string name="meal_dinner">Abendessen</string>
+    <string name="meal_snack">Snacks</string>
+    <string name="meal_empty">Noch nichts eingetragen</string>
+    <string name="add_entry">Eintrag hinzufügen</string>
+    <string name="delete_entry">Eintrag löschen</string>
+    <string name="delete_entry_title">Eintrag löschen?</string>
+    <string name="delete_entry_message">Möchtest du \"%1$s\" wirklich aus dem Tagebuch löschen?</string>
+    <string name="action_delete">Löschen</string>
+    <string name="edit_entry">Eintrag bearbeiten</string>
+    <string name="edit_entry_title">Eintrag bearbeiten</string>
+    <string name="action_save">Speichern</string>
+
+    <!-- Quick-Add-Dialog (temporär bis Suche/Barcode) -->
+    <string name="quick_add_title">Eintrag hinzufügen</string>
+    <string name="quick_add_name">Name</string>
+    <string name="quick_add_amount">Menge (g)</string>
+    <string name="quick_add_amount_ml">Menge (ml)</string>
+    <!-- Mengen-Label mit dynamischem Einheitssymbol (v0.11.0), z. B. "Menge (oz)" -->
+    <string name="amount_label_with_unit">Menge (%1$s)</string>
+    <string name="unit_label">Einheit</string>
+    <string name="unit_grams">Gramm (g)</string>
+    <string name="unit_milliliters">Milliliter (ml)</string>
+    <string name="quick_add_kcal">Kalorien / 100 g</string>
+    <string name="quick_add_protein">Protein / 100 g</string>
+    <string name="quick_add_carbs">Kohlenhydrate / 100 g</string>
+    <string name="quick_add_fat">Fett / 100 g</string>
+    <string name="quick_add_optional_hint">Makros sind optional</string>
+    <string name="action_add">Hinzufügen</string>
+    <string name="action_cancel">Abbrechen</string>
+
+    <!-- Barcode-Scanner (v0.3.0) -->
+    <string name="scanner_title">Barcode scannen</string>
+    <string name="scanner_hint">Barcode im Rahmen positionieren</string>
+    <string name="scanner_close">Schließen</string>
+    <string name="scanner_looking_up">Produkt wird gesucht…</string>
+    <string name="scanner_error_network">Keine Verbindung. Produkt konnte nicht abgerufen werden.</string>
+    <string name="scanner_not_found">Produkt nicht gefunden. Bitte manuell eingeben.</string>
+    <string name="scanner_permission_title">Kamera-Zugriff benötigt</string>
+    <string name="scanner_permission_rationale">FairTrack braucht die Kamera, um Barcodes zu scannen.</string>
+    <string name="scanner_grant_permission">Kamera erlauben</string>
+    <string name="scanner_confirm_title">Produkt bestätigen</string>
+    <string name="scanner_meal_label">Mahlzeit</string>
+    <string name="scanner_brand">Marke</string>
+    <string name="action_scan">Scannen</string>
+    <string name="action_retry">Erneut versuchen</string>
+
+    <!-- Suche (v0.3.0: nur Scan-Einstieg; Volltextsuche folgt v0.4.0) -->
+    <string name="search_scan_button">Barcode scannen</string>
+    <string name="search_scan_subtitle">Produkt scannen und Kalorien sofort übernehmen</string>
+    <string name="search_target_label">Hinzufügen zu</string>
+    <string name="search_manual_button">Manuell hinzufügen</string>
+
+    <!-- Onboarding / Ziele (TDEE) -->
+    <string name="onboarding_title">Dein Profil</string>
+    <string name="onboarding_subtitle">Für persönliche Kalorien- und Makroziele</string>
+    <string name="onboarding_weight">Gewicht (kg)</string>
+    <string name="onboarding_height">Größe (cm)</string>
+    <string name="onboarding_age">Alter (Jahre)</string>
+    <string name="onboarding_sex">Geschlecht</string>
+    <string name="sex_male">Männlich</string>
+    <string name="sex_female">Weiblich</string>
+    <string name="onboarding_activity">Aktivitätslevel</string>
+    <string name="activity_sedentary">Wenig aktiv (Büro)</string>
+    <string name="activity_light">Leicht aktiv</string>
+    <string name="activity_moderate">Mäßig aktiv</string>
+    <string name="activity_active">Sehr aktiv</string>
+    <string name="activity_very_active">Extrem aktiv</string>
+    <string name="onboarding_goal">Ziel</string>
+    <string name="goal_lose">Abnehmen</string>
+    <string name="goal_maintain">Gewicht halten</string>
+    <string name="goal_gain">Muskelaufbau</string>
+    <string name="onboarding_result">Tagesziel: %1$d kcal · %2$d g Protein · %3$d g KH · %4$d g Fett</string>
+    <string name="onboarding_finish">Los geht\'s</string>
+    <string name="onboarding_save">Speichern</string>
+
+    <!-- Onboarding: Zielgewicht + manuelle Ziel-Overrides (v0.9.0) -->
+    <string name="onboarding_target_weight">Zielgewicht (kg)</string>
+    <string name="onboarding_manual_title">Ziele manuell anpassen</string>
+    <string name="onboarding_manual_hint">Leer lassen = automatisch aus TDEE berechnet</string>
+    <string name="onboarding_manual_calories">Kalorienziel (kcal)</string>
+    <string name="onboarding_manual_protein">Protein (g)</string>
+    <string name="onboarding_manual_carbs">Kohlenhydrate (g)</string>
+    <string name="onboarding_manual_fat">Fett (g)</string>
+    <string name="onboarding_macro_percent">%1$d %% Protein · %2$d %% KH · %3$d %% Fett</string>
+
+    <!-- Onboarding: BMI + gesunder Gewichtsbereich -->
+    <string name="onboarding_bmi">BMI: %1$s – %2$s</string>
+    <string name="onboarding_bmi_detail">Gesundes Gewicht für dich: %1$d–%2$d kg · Empfehlung: ca. %3$d kg</string>
+    <string name="bmi_underweight">Untergewicht</string>
+    <string name="bmi_normal">Normalgewicht</string>
+    <string name="bmi_overweight">Übergewicht</string>
+    <string name="bmi_obese">Starkes Übergewicht</string>
+    <string name="onboarding_target_weight_too_low">Zu niedrig: unter %1$d kg (BMI 18,5) wäre gesundheitsschädlich</string>
+
+    <!-- Onboarding: Plausibilitätsgrenzen der Eingaben -->
+    <string name="onboarding_weight_range">Bitte realistischen Wert eingeben (30–300 kg)</string>
+    <string name="onboarding_height_range">Bitte realistischen Wert eingeben (100–250 cm)</string>
+    <string name="onboarding_age_range">Bitte realistischen Wert eingeben (10–120 Jahre)</string>
+    <string name="onboarding_manual_calories_range">Bitte Wert zwischen 1200 und 10000 kcal eingeben</string>
+
+    <!-- Einstellungen -->
+    <string name="settings_edit_goals">Ziele &amp; Profil bearbeiten</string>
+    <string name="settings_goals_subtitle">Gewicht, Aktivität und Ziel anpassen</string>
+
+    <!-- Einstellungen: Darstellung, Einheiten, Sprache, Daten (v0.11.0) -->
+    <string name="settings_section_appearance">Darstellung</string>
+    <string name="settings_section_general">Allgemein</string>
+    <string name="settings_section_data">Daten</string>
+
+    <string name="settings_theme">Design</string>
+    <string name="settings_theme_subtitle">Hell, dunkel oder wie das System</string>
+    <string name="settings_theme_dialog_title">Design wählen</string>
+    <string name="theme_auto">Automatisch (System)</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+
+    <string name="settings_dynamic_color">Material You</string>
+    <string name="settings_dynamic_color_subtitle">Farben aus dem Hintergrundbild übernehmen</string>
+    <string name="settings_dynamic_color_unavailable">Ab Android 12 verfügbar</string>
+
+    <string name="settings_units">Einheiten</string>
+    <string name="settings_units_subtitle">Maßsystem für Mengen und Gewicht</string>
+    <string name="settings_units_dialog_title">Einheiten wählen</string>
+    <string name="unit_metric">Metrisch (g, ml, kg)</string>
+    <string name="unit_imperial">Imperial (oz, fl oz, lb)</string>
+
+    <string name="settings_language">Sprache</string>
+    <string name="settings_language_subtitle">App-Sprache wählen</string>
+    <string name="settings_language_dialog_title">Sprache wählen</string>
+    <string name="language_system">System</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_en">Englisch</string>
+    <string name="language_es">Spanisch</string>
+
+    <string name="settings_reset">Alle Daten löschen</string>
+    <string name="settings_reset_subtitle">Tagebuch, Lebensmittel, Gewicht und Wasser zurücksetzen</string>
+    <string name="settings_reset_dialog_title">Alle Daten löschen?</string>
+    <string name="settings_reset_dialog_message">Dadurch werden alle Einträge, eigenen Lebensmittel, Gerichte, Vorlagen sowie dein Profil unwiderruflich gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_reset_confirm">Löschen</string>
+
+    <!-- Gewichtsanzeige imperial (v0.11.0) -->
+    <string name="statistics_weight_delta_to_goal_generic">Noch %1$s bis zum Ziel</string>
+
+    <!-- Statistiken: Gewichts-Tracking &amp; Verlauf (v0.9.0) -->
+    <string name="statistics_title">Statistiken</string>
+    <string name="statistics_weight_title">Gewichtsverlauf</string>
+    <string name="statistics_current_weight">Aktuell</string>
+    <string name="statistics_target_weight">Ziel</string>
+    <string name="statistics_target_none">Kein Zielgewicht gesetzt</string>
+    <string name="statistics_no_weight">Noch keine Gewichtseinträge. Trage dein Gewicht ein, um den Verlauf zu sehen.</string>
+    <string name="statistics_log_weight">Gewicht eintragen</string>
+    <string name="statistics_weight_input">Gewicht (kg)</string>
+    <string name="statistics_weight_today">Für heute</string>
+    <string name="statistics_weight_save">Speichern</string>
+    <string name="statistics_weight_kg">%1$s kg</string>
+    <string name="statistics_weight_delta_to_goal">Noch %1$s kg bis zum Ziel</string>
+    <string name="statistics_weight_at_goal">Zielgewicht erreicht</string>
+    <string name="statistics_entries_title">Einträge</string>
+    <string name="statistics_delete_weight">Gewichtseintrag löschen</string>
+
+    <!-- Statistiken: Körpermaße-Tracking &amp; Verlauf (v0.12.0) -->
+    <string name="body_section_title">Körpermaße</string>
+    <string name="body_input_hint">Trage die heute gemessenen Maße ein (nur ausgefüllte werden gespeichert).</string>
+    <string name="body_field_label">%1$s (%2$s)</string>
+    <string name="body_measure_waist">Taille</string>
+    <string name="body_measure_bodyfat">Körperfett</string>
+    <string name="body_measure_chest">Brust</string>
+    <string name="body_measure_arm">Arm</string>
+    <string name="body_save">Speichern</string>
+    <string name="body_no_data">Noch nicht genug Daten für dieses Maß. Trage mindestens zwei Werte ein, um den Verlauf zu sehen.</string>
+    <string name="body_entries_title">Einträge</string>
+    <string name="body_delete">Körpermaß-Eintrag löschen</string>
+
+    <!-- Statistiken: Kalorien, Makros &amp; Streak (v0.8.0) -->
+    <string name="statistics_calories_title">Kalorien</string>
+    <string name="statistics_week_title">Letzte 7 Tage</string>
+    <string name="statistics_no_calorie_data">Noch keine Einträge. Logge Mahlzeiten, um deinen Verlauf zu sehen.</string>
+    <string name="statistics_month_avg_title">Ø kcal/Tag</string>
+    <string name="statistics_month_avg_subtitle">Schnitt über %1$d erfasste Tage (letzte 30 Tage)</string>
+    <string name="statistics_month_avg_none">Noch keine erfassten Tage im letzten Monat</string>
+    <string name="statistics_streak_title">Serie</string>
+    <string name="statistics_streak_none">Noch keine Serie – logge heute etwas!</string>
+    <string name="statistics_macro_title">Makro-Verteilung (7 Tage)</string>
+    <string name="statistics_macro_empty">Noch keine Einträge in den letzten 7 Tagen.</string>
+    <string name="statistics_macro_protein">Protein</string>
+    <string name="statistics_macro_carbs">Kohlenhydrate</string>
+    <string name="statistics_macro_fat">Fett</string>
+    <string name="statistics_macro_value">%1$d g · %2$d %%</string>
+    <string name="statistics_macro_total">7 Tage</string>
+    <string name="statistics_kcal">%1$d kcal</string>
+
+    <!-- Obst &amp; Gemüse: Produce-Katalog (Open Food Facts, offline) -->
+    <string name="produce_title">Obst &amp; Gemüse</string>
+    <string name="produce_choose_group">Was möchtest du hinzufügen?</string>
+    <string name="produce_choose_category">Kategorie wählen</string>
+    <string name="produce_kcal_per_100g">%1$d kcal / 100 g</string>
+    <string name="search_produce_button">Obst &amp; Gemüse</string>
+
+    <string name="produce_group_fruit">Obst</string>
+    <string name="produce_group_vegetable">Gemüse</string>
+
+    <string name="produce_cat_berries">Beerenobst</string>
+    <string name="produce_cat_pome">Kernobst</string>
+    <string name="produce_cat_stone">Steinobst</string>
+    <string name="produce_cat_citrus">Zitrusfrüchte</string>
+    <string name="produce_cat_exotic">Exotische Früchte</string>
+    <string name="produce_cat_melon">Melonen</string>
+    <string name="produce_cat_leafy">Blattgemüse</string>
+    <string name="produce_cat_cabbage">Kohlgemüse</string>
+    <string name="produce_cat_root">Wurzel- &amp; Knollengemüse</string>
+    <string name="produce_cat_fruitveg">Fruchtgemüse</string>
+    <string name="produce_cat_onion">Zwiebelgewächse</string>
+    <string name="produce_cat_legume">Hülsenfrüchte</string>
+    <string name="produce_cat_mushroom">Pilze</string>
+
+    <!-- Meine Lebensmittel (v0.5.0) -->
+    <string name="myfoods_title">Meine Lebensmittel</string>
+    <string name="search_myfoods_button">Meine Lebensmittel</string>
+    <string name="myfoods_tab_foods">Lebensmittel</string>
+    <string name="myfoods_tab_dishes">Gerichte</string>
+    <string name="myfoods_search">Durchsuchen</string>
+    <string name="myfoods_new_food">Neues Lebensmittel</string>
+    <string name="myfoods_new_dish">Neues Gericht</string>
+    <string name="myfoods_empty_foods">Noch keine eigenen Lebensmittel. Lege eines an, um es hier zu sehen.</string>
+    <string name="myfoods_empty_dishes">Noch keine Gerichte. Lege ein Rezept an, um es hier zu sehen.</string>
+    <string name="myfoods_kcal_per_100g">%1$d kcal / 100 g</string>
+    <string name="myfoods_per_serving">%1$d kcal / Portion</string>
+    <string name="myfoods_ingredient_count">%1$d Zutaten</string>
+    <string name="myfoods_servings_label">Portionen</string>
+    <string name="myfoods_more_actions">Weitere Aktionen</string>
+    <string name="myfoods_action_edit">Bearbeiten</string>
+    <string name="myfoods_delete_food_title">Lebensmittel löschen?</string>
+    <string name="myfoods_delete_food_message">Möchtest du \"%1$s\" wirklich löschen?</string>
+    <string name="myfoods_delete_dish_title">Gericht löschen?</string>
+    <string name="myfoods_delete_dish_message">Möchtest du \"%1$s\" wirklich löschen?</string>
+    <string name="myfoods_add_dish_title">Gericht hinzufügen</string>
+
+    <!-- Lebensmittel-Editor (v0.5.0) -->
+    <string name="edit_food_new_title">Neues Lebensmittel</string>
+    <string name="edit_food_edit_title">Lebensmittel bearbeiten</string>
+    <string name="edit_food_name">Name</string>
+    <string name="edit_food_brand">Marke (optional)</string>
+    <string name="edit_food_beverage">Getränk (in ml erfassen)</string>
+    <string name="edit_food_portions">Portionen</string>
+    <string name="edit_food_portions_hint">Optionale Schnellauswahl, z. B. \"Scheibe\" = 25 g</string>
+    <string name="edit_food_add_portion">Portion hinzufügen</string>
+    <string name="edit_food_portion_label">Bezeichnung</string>
+    <string name="edit_food_portion_grams">Gramm</string>
+    <string name="edit_food_remove_portion">Portion entfernen</string>
+
+    <!-- Favoriten &amp; Vorlagen (v0.6.0) -->
+    <string name="favorites_title">Favoriten</string>
+    <string name="favorite_add">Als Favorit markieren</string>
+    <string name="favorite_remove">Favorit entfernen</string>
+    <string name="recent_eaten_title">Kürzlich gegessen</string>
+    <string name="templates_title">Mahlzeiten-Vorlagen</string>
+    <string name="templates_button">Vorlagen</string>
+    <string name="templates_empty">Noch keine Vorlagen. Speichere eine Mahlzeit über das Menü ihrer Mahlzeit-Sektion auf der Startseite.</string>
+    <string name="templates_item_count">%1$d Einträge · %2$d kcal</string>
+    <string name="templates_apply_hint">Antippen fügt alle Einträge zur gewählten Mahlzeit hinzu.</string>
+    <string name="template_delete">Vorlage löschen</string>
+    <string name="template_delete_title">Vorlage löschen?</string>
+    <string name="template_delete_message">Möchtest du \"%1$s\" wirklich löschen?</string>
+    <string name="save_as_template">Als Vorlage speichern</string>
+    <string name="save_template_title">Als Vorlage speichern</string>
+    <string name="save_template_name">Name der Vorlage</string>
+    <string name="meal_more_actions">Weitere Aktionen</string>
+
+    <!-- Wasser-Tracker (v0.7.0) -->
+    <string name="water_title">Wasser</string>
+    <string name="water_unit_ml">ml</string>
+    <string name="water_amount_of_goal">%1$d / %2$d ml</string>
+    <string name="water_add_amount">+%1$d ml</string>
+    <string name="water_reset">Zurücksetzen</string>
+    <string name="water_edit_goal">Tagesziel bearbeiten</string>
+    <string name="water_goal_dialog_title">Wasser-Tagesziel</string>
+    <string name="water_goal_dialog_label">Ziel in ml</string>
+    <string name="water_reminder_label">Trink-Erinnerung</string>
+    <string name="water_reminder_hours">%1$d h</string>
+    <string name="water_reminder_channel_name">Trink-Erinnerung</string>
+    <string name="water_reminder_channel_desc">Erinnert regelmäßig ans Wassertrinken.</string>
+    <string name="water_reminder_notif_title">Zeit zu trinken 💧</string>
+    <string name="water_reminder_notif_text">Trink ein Glas Wasser und halte dein Tagesziel im Blick.</string>
+
+    <!-- Aktionen -->
+    <string name="action_back">Zurück</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_apply">Übernehmen</string>
+    <string name="action_remove">Entfernen</string>
+
+    <!-- Platzhalter-Screens -->
+    <!-- Über uns / Datenquellen (v1.0.0) -->
+    <string name="settings_section_info">Info</string>
+    <string name="settings_about">Über uns</string>
+    <string name="settings_about_subtitle">Version und Datenquellen</string>
+    <string name="about_title">Über uns</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_intro">FairTrack ist ein Kalorientracker, der ohne Konto auskommt. Alle Einträge bleiben auf deinem Gerät.</string>
+    <string name="about_section_sources">Nährwertdaten</string>
+    <string name="about_section_activity">Bewegungsdaten</string>
+    <string name="about_off_name">Open Food Facts</string>
+    <string name="about_off_description">Produkte, Barcodes und Nährwerte stammen aus der offenen Datenbank von Open Food Facts, einem gemeinnützigen Gemeinschaftsprojekt.</string>
+    <string name="about_off_license">Daten unter Open Database License (ODbL) 1.0, Produktbilder unter CC BY-SA 3.0.</string>
+    <string name="about_bls_name">Bundeslebensmittelschlüssel (BLS) 4.0</string>
+    <string name="about_bls_description">Vitamine und Mineralstoffe für Grundnahrungsmittel wie rohes Obst und Gemüse stammen aus dem BLS des Max Rubner-Instituts.</string>
+    <string name="about_bls_license">Lizenziert unter CC BY 4.0.</string>
+    <string name="about_health_connect_name">Health Connect</string>
+    <string name="about_health_connect_description">Schritte und verbrannte Kalorien liest FairTrack auf Wunsch aus Health Connect. Welche Apps einzahlen, bestimmst du in den Einstellungen.</string>
+    <string name="about_disclaimer">Nährwertangaben können von den Werten auf der Verpackung abweichen. FairTrack ersetzt keine medizinische Beratung.</string>
+
+    <!-- Tagebuch: Verlauf über mehrere Tage (v0.15.0) -->
+    <string name="diary_kcal_of_goal">%1$d / %2$d kcal</string>
+    <string name="diary_macro_summary">P %1$d g · K %2$d g · F %3$d g</string>
+    <string name="diary_empty_title">Noch kein Verlauf</string>
+    <string name="diary_empty_hint">Trage Mahlzeiten ein — dein Rückblick der letzten 90 Tage erscheint hier.</string>
+
+    <string name="placeholder_coming_soon">Kommt bald</string>
+    <string name="placeholder_subtitle">Diese Funktion ist in Arbeit.</string>
+
+    <!-- Home-Screen-Widgets (v0.10.0) -->
+    <string name="widget_calories_label">Kalorien &amp; Makros</string>
+    <string name="widget_calories_compact_label">Kalorien kompakt</string>
+    <string name="widget_water_label">Wasser</string>
+    <string name="widget_calories_title">Kalorien</string>
+    <string name="widget_calories_value">%1$d / %2$d kcal</string>
+    <string name="widget_macro_protein">P %1$d g</string>
+    <string name="widget_macro_carbs">KH %1$d g</string>
+    <string name="widget_macro_fat">F %1$d g</string>
+    <string name="widget_water_title">Wasser</string>
+    <string name="widget_water_value">%1$d / %2$d ml</string>
+    <string name="widget_water_add">+250 ml</string>
+
+    <!-- Gericht-Editor + Zutaten (v0.11.0, aus hartkodierten Literalen extrahiert) -->
+    <string name="editdish_edit_title">Gericht bearbeiten</string>
+    <string name="editdish_name">Name des Gerichts</string>
+    <string name="editdish_servings">Ergibt Portionen</string>
+    <string name="editdish_total_kcal">Gesamt: %1$s kcal</string>
+    <string name="editdish_macros_line">P %1$s g · KH %2$s g · F %3$s g</string>
+    <string name="editdish_per_serving">Pro Portion (%1$s): %2$s kcal</string>
+    <string name="editdish_ingredients">Zutaten</string>
+    <string name="editdish_no_ingredients">Noch keine Zutaten. Füge unten die erste hinzu.</string>
+    <string name="editdish_online_search">Online suchen</string>
+    <string name="editdish_barcode">Barcode</string>
+    <string name="editdish_manual">Manuell</string>
+    <string name="editdish_my_foods">Meine LM</string>
+    <string name="editdish_add_ingredient">Zutat hinzufügen</string>
+    <string name="editdish_edit_ingredient">Zutat bearbeiten</string>
+    <string name="editdish_kcal_per_100g_label">kcal / 100 g</string>
+    <string name="editdish_macros_optional">Makros pro 100 g (optional)</string>
+    <string name="editdish_protein">Eiweiß</string>
+    <string name="editdish_carbs">KH</string>
+    <string name="editdish_fat">Fett</string>
+    <string name="editdish_min_chars">Mindestens 2 Zeichen eingeben.</string>
+    <string name="editdish_no_results">Keine Treffer.</string>
+    <string name="editdish_network_error">Keine Verbindung. Bitte später erneut versuchen.</string>
+    <string name="editdish_kcal_per_100g_value">%1$s kcal / 100 g</string>
+    <string name="editdish_food_macros">%1$s kcal · P %2$s g · KH %3$s g · F %4$s g</string>
+    <string name="editdish_from_my_foods">Aus meinen Lebensmitteln</string>
+    <string name="editdish_no_own_foods">Du hast noch keine eigenen Lebensmittel angelegt.</string>
+
+    <!-- Suche (v0.11.0, aus hartkodierten Literalen extrahiert) -->
+    <string name="search_food_hint">Lebensmittel suchen</string>
+    <string name="search_clear">Suche löschen</string>
+    <string name="search_empty_title">Keine Treffer</string>
+    <string name="search_empty_hint">Versuche einen anderen Suchbegriff.</string>
+    <string name="search_network_title">Keine Verbindung</string>
+    <string name="search_network_hint">Bitte prüfe deine Internetverbindung.</string>
+    <string name="search_recent_searches">Zuletzt gesucht</string>
+    <string name="search_clear_history">Verlauf löschen</string>
+
+    <!-- Portions-Schnellauswahl-Label (v0.11.0), z. B. "Scheibe (25 g)" -->
+    <string name="portion_label_format">%1$s (%2$s g)</string>
+
+    <!-- Statistiken: Streak-Text (v0.8.0) -->
+    <plurals name="statistics_streak_days">
+        <item quantity="one">🔥 %1$d Tag in Folge</item>
+        <item quantity="other">🔥 %1$d Tage in Folge</item>
+    </plurals>
+
+    <!-- Mikronährstoffe (v0.10.0) -->
+    <string name="micro_unit_mg">mg</string>
+    <string name="micro_unit_ug">µg</string>
+    <string name="micro_vitamin_a">Vitamin A</string>
+    <string name="micro_vitamin_d">Vitamin D</string>
+    <string name="micro_vitamin_e">Vitamin E</string>
+    <string name="micro_vitamin_c">Vitamin C</string>
+    <string name="micro_vitamin_b6">Vitamin B6</string>
+    <string name="micro_vitamin_b12">Vitamin B12</string>
+    <string name="micro_folate">Folat</string>
+    <string name="micro_calcium">Calcium</string>
+    <string name="micro_iron">Eisen</string>
+    <string name="micro_magnesium">Magnesium</string>
+    <string name="micro_zinc">Zink</string>
+    <string name="micro_potassium">Kalium</string>
+    <string name="micro_phosphorus">Phosphor</string>
+    <string name="micro_iodine">Jod</string>
+    <string name="micro_section_title">Vitamine &amp; Mineralstoffe (pro 100 g)</string>
+    <string name="statistics_micro_section_title">Mikronährstoffe</string>
+    <string name="statistics_micro_title">Tagesdeckung</string>
+    <string name="statistics_micro_subtitle">Anteil am Tagesbedarf (EU-NRV) heute</string>
+    <string name="statistics_micro_empty">Noch keine Mikronährstoff-Angaben für heute.</string>
+    <string name="statistics_micro_source">Quelle: Open Food Facts &amp; BLS (Max Rubner-Institut)</string>
+
+    <!-- Fasten-Timer (v0.13.0) -->
+    <string name="fasting_title">Fasten</string>
+    <string name="fasting_entry_subtitle">Intervallfasten mit Timer</string>
+    <string name="fasting_start">Fasten starten</string>
+    <string name="fasting_stop">Fasten beenden</string>
+    <string name="fasting_idle">Bereit</string>
+    <string name="fasting_goal_reached">Ziel erreicht 🎉</string>
+    <string name="fasting_target_hours">Ziel: %1$d h</string>
+    <string name="fasting_window_range">%1$s – %2$s</string>
+    <string name="fasting_preset_title">Methode</string>
+    <string name="fasting_preset_locked">Preset während eines laufenden Fastens gesperrt.</string>
+    <string name="fasting_day_based_hint">5:2 ist tagebasiert: an 2 Tagen pro Woche ~500–600 kcal, sonst normal essen. Kein Stunden-Timer.</string>
+    <string name="fasting_reminder_label">Erinnerung zum Fastenende</string>
+    <string name="fasting_reminder_hint">Benachrichtigung, wenn dein Fastenfenster endet.</string>
+    <string name="fasting_history_title">Verlauf (%1$d)</string>
+    <string name="fasting_history_entry">%1$s · %2$s</string>
+    <string name="fasting_reminder_channel_name">Fasten-Erinnerung</string>
+    <string name="fasting_reminder_channel_desc">Meldet, wenn das Fastenziel erreicht ist.</string>
+    <string name="fasting_reminder_notif_title">Fastenziel erreicht ⏱️</string>
+    <string name="fasting_reminder_notif_text">Dein Fastenfenster ist vorbei – Zeit fürs Essfenster.</string>
+    <string name="fasting_preset_16_8">16:8</string>
+    <string name="fasting_preset_18_6">18:6</string>
+    <string name="fasting_preset_14_10">14:10</string>
+    <string name="fasting_preset_20_4">20:4</string>
+    <string name="fasting_preset_omad">OMAD</string>
+    <string name="fasting_preset_5_2">5:2</string>
+    <string name="fasting_desc_16_8">Leangains – 16 Std. fasten, 8 Std. essen. Das beliebteste und am besten untersuchte Protokoll; meist wird das Frühstück ausgelassen. Idealer Einstieg.</string>
+    <string name="fasting_desc_18_6">18 Std. fasten, 6 Std. essen. Etwas strenger als 16:8, kann Fettabbau und Autophagie verstärken. Für Fortgeschrittene.</string>
+    <string name="fasting_desc_14_10">14 Std. fasten, 10 Std. essen. Sanfter, alltagstauglicher Einstieg für Anfänger.</string>
+    <string name="fasting_desc_20_4">Krieger-Diät – 20 Std. fasten, 4 Std. essen (eine Hauptmahlzeit). Anspruchsvoll; auf ausreichend Protein und Mikronährstoffe achten.</string>
+    <string name="fasting_desc_omad">One Meal A Day – rund 23 Std. fasten, eine Mahlzeit täglich. Sehr fortgeschritten; den Nährstoffbedarf in einer Mahlzeit zu decken ist schwierig.</string>
+    <string name="fasting_desc_5_2">An 5 Tagen normal essen, an 2 nicht aufeinanderfolgenden Tagen auf ~500–600 kcal reduzieren. Tagebasiert – kein Stunden-Countdown.</string>
+    <string name="fasting_ongoing_channel_name">Laufendes Fasten</string>
+    <string name="fasting_ongoing_channel_desc">Zeigt den Fasten-Timer dauerhaft in der Statusleiste.</string>
+    <string name="fasting_ongoing_title">Fasten %1$s</string>
+    <string name="fasting_ongoing_text">Restzeit bis zum Essfenster</string>
+    <string name="fasting_ongoing_reached_text">Ziel erreicht – Essfenster ist offen</string>
+
+    <!-- Health-Connect-Import: Schritte + Aktivkalorien (v0.14.0) -->
+    <string name="activity_title">Bewegung</string>
+    <string name="activity_steps">Schritte</string>
+    <string name="activity_active_kcal">%1$d kcal aktiv verbrannt</string>
+    <string name="activity_budget_added">+%1$d kcal auf dein Tagesbudget</string>
+    <string name="activity_unavailable_body">Health Connect ist auf diesem Gerät nicht verfügbar. Installiere es, um Schritte und verbrannte Kalorien zu importieren.</string>
+    <string name="activity_install_health_connect">Health Connect installieren</string>
+    <string name="activity_connect_body">Verbinde Health Connect, um deine Schritte und Aktivkalorien zu importieren.</string>
+    <string name="activity_connect">Verbinden</string>
+    <string name="activity_rationale_title">Bewegungsdaten in FairTrack</string>
+    <string name="activity_rationale_body">FairTrack liest deine Schritte und aktiv verbrannten Kalorien aus Health Connect, um sie auf dem Home-Screen anzuzeigen und – falls du das aktivierst – dein tägliches Kalorienbudget anzupassen. Die Daten bleiben auf deinem Gerät und werden nicht an Dritte weitergegeben.</string>
+    <string name="activity_source_health_connect">Health Connect</string>
+
+    <!-- Einstellungen: Bewegung (v0.14.0) -->
+    <string name="settings_section_activity">Bewegung</string>
+    <string name="settings_activity_source">Datenquelle</string>
+    <string name="settings_activity_source_dialog_title">Datenquelle wählen</string>
+    <string name="settings_activity_budget">Aktivkalorien zum Budget addieren</string>
+    <string name="settings_activity_budget_subtitle">Schlägt aktiv verbrannte Kalorien auf dein Tagesbudget. Nur sinnvoll, wenn dein Aktivitätslevel auf „sitzend“ steht – sonst ist die Alltagsbewegung bereits eingerechnet und würde doppelt zählen.</string>
+    <string name="settings_activity_apps">Apps als Datenquelle</string>
+    <string name="settings_activity_apps_subtitle">Wähle, welche Apps einzahlen sollen. Ohne Auswahl zählen alle. Mehrere Apps können denselben Zeitraum schreiben und sich so aufsummieren – schränke die Auswahl ein, um Doppelzählung zu vermeiden.</string>
+    <string name="settings_activity_apps_none">Noch keine App hat Bewegungsdaten an Health Connect geschrieben. Sobald z. B. Fitbit, Garmin oder Samsung Health Daten liefern, erscheinen sie hier.</string>
+</resources>
