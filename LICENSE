@@ -1,0 +1,95 @@
+FairTrack Source-Available License (Version 1.0)
+
+Copyright (c) 2026 daonware-it (https://github.com/daonware-it/FairTrack)
+
+Präambel
+--------
+FairTrack ist ein quelloffen einsehbarer Android-Kalorientracker. Der
+Quellcode wird zur Transparenz und für Beiträge veröffentlicht. Diese Lizenz
+erlaubt die private Nutzung und Weiterentwicklung, untersagt jedoch die
+Verbreitung von Kopien ohne deutliche Nennung des Originalprojekts.
+
+1. Begriffsbestimmungen
+-----------------------
+"Software" bezeichnet den Quellcode, die Build-Skripte, Ressourcen und
+Dokumentation dieses Repositories sowie daraus erzeugte Binärdateien
+(insbesondere APK- und AAB-Dateien).
+"Originalprojekt" bezeichnet das Repository
+https://github.com/daonware-it/FairTrack des Rechteinhabers.
+"Namensnennung" bezeichnet einen deutlich sichtbaren Hinweis in der Form
+"Basiert auf FairTrack (https://github.com/daonware-it/FairTrack)".
+
+2. Gestattete Nutzung
+---------------------
+Jeder Person wird unentgeltlich gestattet:
+a) die Software einzusehen, herunterzuladen, zu kompilieren und für private,
+   nicht-kommerzielle Zwecke auf eigenen Geräten zu nutzen;
+b) die Software zu verändern und eigene Weiterentwicklungen für private,
+   nicht-kommerzielle Zwecke zu nutzen;
+c) Beiträge (Pull Requests, Issues, Patches) zum Originalprojekt einzureichen.
+
+3. Verbreitung nur mit Namensnennung
+------------------------------------
+Jede Weitergabe der Software oder abgeleiteter Werke — im Quell- oder
+Binärformat, entgeltlich oder unentgeltlich, einschließlich der
+Veröffentlichung in App-Stores — ist NUR gestattet, wenn:
+a) die Namensnennung (Ziffer 1) deutlich sichtbar erfolgt, mindestens in der
+   Beschreibung der Veröffentlichung UND in der App selbst (z. B. im
+   "Über"-Bereich);
+b) diese Lizenzdatei unverändert beiliegt;
+c) klar erkennbar ist, welche Änderungen gegenüber dem Originalprojekt
+   vorgenommen wurden.
+
+4. Untersagte Handlungen
+------------------------
+Ausdrücklich untersagt ist:
+a) die Verbreitung der Software oder abgeleiteter Werke OHNE die
+   Namensnennung nach Ziffer 3 — insbesondere das Veröffentlichen
+   unveränderter oder nur geringfügig veränderter Kopien unter anderem
+   Namen ("Reskins");
+b) das Entfernen oder Unkenntlichmachen von Urheberrechts- und
+   Lizenzhinweisen;
+c) die Nutzung des Namens "FairTrack" oder des Namens des Rechteinhabers
+   zur Bewerbung abgeleiteter Werke in einer Weise, die eine Herkunft vom
+   oder Unterstützung durch den Rechteinhaber suggeriert, ohne dessen
+   vorherige schriftliche Zustimmung.
+
+5. Kommerzielle Verbreitung
+---------------------------
+Die kommerzielle Verbreitung der Software oder abgeleiteter Werke (z. B.
+kostenpflichtige App-Store-Veröffentlichungen, Werbefinanzierung, In-App-
+Käufe) bedarf zusätzlich zu Ziffer 3 der vorherigen schriftlichen Zustimmung
+des Rechteinhabers.
+
+6. Datenquellen und Drittkomponenten
+------------------------------------
+Eingebundene Drittbibliotheken sowie genutzte Datenquellen (u. a. Open Food
+Facts) unterliegen ihren jeweils eigenen Lizenzbedingungen; diese bleiben von
+dieser Lizenz unberührt.
+
+7. Beendigung
+-------------
+Diese Lizenz erlischt automatisch bei jedem Verstoß gegen die Ziffern 3, 4
+oder 5. Mit dem Erlöschen sind Verbreitung und Nutzung abgeleiteter Werke
+einzustellen.
+
+8. Gewährleistungs- und Haftungsausschluss
+------------------------------------------
+DIE SOFTWARE WIRD "WIE BESEHEN" OHNE JEDE AUSDRÜCKLICHE ODER
+STILLSCHWEIGENDE GEWÄHRLEISTUNG BEREITGESTELLT, EINSCHLIESSLICH — ABER NICHT
+BESCHRÄNKT AUF — DIE GEWÄHRLEISTUNG DER MARKTGÄNGIGKEIT ODER DER EIGNUNG FÜR
+EINEN BESTIMMTEN ZWECK. DER RECHTEINHABER HAFTET NICHT FÜR SCHÄDEN, DIE AUS
+DER NUTZUNG DER SOFTWARE ENTSTEHEN, SOWEIT GESETZLICH ZULÄSSIG. DIE APP
+ERSETZT KEINE MEDIZINISCHE ODER ERNÄHRUNGSBERATUNG.
+
+---
+
+English summary (non-binding, the German text above prevails):
+FairTrack is source-available. Private, non-commercial use, modification and
+contributions are permitted. Distributing the software or derivative works —
+including app-store publishing — is only permitted with clear attribution to
+the original project ("Based on FairTrack,
+https://github.com/daonware-it/FairTrack"), with this license included and
+changes marked. Distributing copies without attribution (re-skins) is
+prohibited. Commercial distribution requires prior written consent. Provided
+"as is", without warranty.
