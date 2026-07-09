@@ -135,7 +135,7 @@ private fun ConnectContent(onPermissionResult: () -> Unit) {
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
-    Button(onClick = { launcher.launch(HealthConnectPermissions.ALL) }) {
+    Button(onClick = { launcher.launch(HealthConnectPermissions.REQUESTABLE) }) {
         Text(stringResource(R.string.activity_connect))
     }
 }

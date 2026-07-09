@@ -59,6 +59,9 @@ class HealthConnectActivitySource(
             val endInstant = day.plusDays(1).atStartOfDay(zone).toInstant()
             val filter = TimeRangeFilter.between(startInstant, endInstant)
 
+            // Fehlgeschlagene Reads (z. B. SecurityException im Hintergrund, Rate
+            // Limit) liefern null statt 0 — sonst würde der Upsert im Worker
+            // bereits importierte echte Werte mit 0 überschreiben.
             val steps = runCatching {
                 val response = client.aggregate(
                     AggregateRequest(
@@ -68,7 +71,7 @@ class HealthConnectActivitySource(
                     )
                 )
                 (response[StepsRecord.COUNT_TOTAL] ?: 0L).toInt()
-            }.getOrDefault(0)
+            }.getOrNull()
 
             val activeKcal = runCatching {
                 val response = client.aggregate(
@@ -80,9 +83,11 @@ class HealthConnectActivitySource(
                 )
                 response[ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL]
                     ?.inKilocalories?.roundToInt() ?: 0
-            }.getOrDefault(0)
+            }.getOrNull()
 
-            result += DailyActivity(date = day, steps = steps, activeKcal = activeKcal)
+            if (steps != null || activeKcal != null) {
+                result += DailyActivity(date = day, steps = steps, activeKcal = activeKcal)
+            }
             day = day.plusDays(1)
         }
         return result

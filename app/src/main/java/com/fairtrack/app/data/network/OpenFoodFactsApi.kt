@@ -9,10 +9,14 @@ import retrofit2.http.Query
  */
 interface OpenFoodFactsApi {
 
+    // WICHTIG: Vitamine/Mineralstoffe NICHT als eigene fields anfordern — sie
+    // sind Unterfelder von `nutriments` (und dort bereits enthalten). Werden
+    // sie zusätzlich als Top-Level-Felder angefragt, lässt die v2-API das
+    // komplette `nutriments`-Objekt weg und der Barcode-Lookup findet keine kcal.
     @GET("api/v2/product/{barcode}.json")
     suspend fun getProduct(
         @Path("barcode") barcode: String,
-        @Query("fields") fields: String = "product_name,product_name_de,brands,categories_tags,image_front_small_url,image_small_url,nutriments,vitamin-a_100g,vitamin-d_100g,vitamin-e_100g,vitamin-c_100g,vitamin-b6_100g,vitamin-b12_100g,folates_100g,calcium_100g,iron_100g,magnesium_100g,zinc_100g,potassium_100g,phosphorus_100g,iodine_100g",
+        @Query("fields") fields: String = "product_name,product_name_de,brands,categories_tags,image_front_small_url,image_small_url,nutriments",
         @Query("lc") lc: String = "de",
         @Query("cc") cc: String = "de"
     ): ProductResponse
@@ -24,7 +28,7 @@ interface OpenFoodFactsApi {
     @GET("https://search.openfoodfacts.org/search")
     suspend fun search(
         @Query("q") terms: String,
-        @Query("fields") fields: String = "code,product_name,product_name_de,brands,categories_tags,image_front_small_url,image_small_url,nutriments,vitamin-a_100g,vitamin-d_100g,vitamin-e_100g,vitamin-c_100g,vitamin-b6_100g,vitamin-b12_100g,folates_100g,calcium_100g,iron_100g,magnesium_100g,zinc_100g,potassium_100g,phosphorus_100g,iodine_100g",
+        @Query("fields") fields: String = "code,product_name,product_name_de,brands,categories_tags,image_front_small_url,image_small_url,nutriments",
         @Query("page_size") pageSize: Int = 25,
         @Query("lang") lang: String = "de"
     ): SearchResponse

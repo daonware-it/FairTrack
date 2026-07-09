@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <!-- Die CAMERA-Permission impliziert sonst android.hardware.camera als
+         Pflicht-Feature und schließt Geräte ohne Rückkamera (Tablets) aus. -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <!-- Trink-Erinnerung (v0.7.0), ab Android 13 zur Laufzeit angefragt -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -21,7 +24,9 @@
 
     <uses-permission android:name="android.permission.health.READ_STEPS" />
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
-    <uses-permission android:name="android.permission.health.READ_TOTAL_CALORIES_BURNED" />
+    <!-- Ohne Background-Read verweigert Health Connect (Android 14+) Lesezugriffe
+         aus dem periodischen Sync-Worker, sobald die App im Hintergrund ist. -->
+    <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND" />
 
     <!-- Sichtbarkeit der Health-Connect-App (sonst schlägt getSdkStatus fehl). -->
     <queries>

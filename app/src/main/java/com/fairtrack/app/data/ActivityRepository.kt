@@ -35,8 +35,10 @@ class ActivityRepository @Inject constructor(
             ActivityEntry(
                 id = existing?.id ?: 0,
                 date = epochDay,
-                steps = daily.steps,
-                activeKcal = daily.activeKcal,
+                // null = Read fehlgeschlagen: vorhandenen Wert behalten statt
+                // ihn mit 0 zu überschreiben.
+                steps = daily.steps ?: existing?.steps ?: 0,
+                activeKcal = daily.activeKcal ?: existing?.activeKcal ?: 0,
                 source = source.sourceId,
                 lastSyncEpochMillis = System.currentTimeMillis()
             )

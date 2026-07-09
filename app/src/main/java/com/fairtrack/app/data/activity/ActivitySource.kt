@@ -10,8 +10,9 @@ import java.time.LocalDate
  */
 data class DailyActivity(
     val date: LocalDate,
-    val steps: Int,
-    val activeKcal: Int
+    /** null = Wert konnte nicht gelesen werden (Upsert behält den Bestand). */
+    val steps: Int?,
+    val activeKcal: Int?
 )
 
 /**
