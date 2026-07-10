@@ -33,9 +33,13 @@
         <package android:name="com.google.android.apps.healthdata" />
     </queries>
 
+    <!-- allowBackup="false": Mit Google-Auto-Backup lägen Tagebuch, Gewicht und
+         Körpermaße in Google Drive, was dem Versprechen "alle Daten bleiben auf dem
+         Gerät" widerspricht. Für den Gerätewechsel gibt es stattdessen Export/Import
+         in den Einstellungen (siehe BackupRepository). -->
     <application
         android:name=".FairTrackApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"

@@ -2,11 +2,14 @@ package com.fairtrack.app.ui.settings
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fairtrack.app.R
 import com.fairtrack.app.data.ActivityPreferencesRepository
 import com.fairtrack.app.data.AppLanguage
 import com.fairtrack.app.data.AppPreferencesRepository
@@ -15,6 +18,8 @@ import com.fairtrack.app.data.ThemeMode
 import com.fairtrack.app.data.UnitSystem
 import com.fairtrack.app.data.activity.ActivitySourceRegistry
 import com.fairtrack.app.data.activity.ActivitySourceType
+import com.fairtrack.app.data.backup.BackupRepository
+import com.fairtrack.app.data.backup.ImportResult
 import com.fairtrack.app.work.ActivitySyncScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -39,8 +44,12 @@ class SettingsViewModel @Inject constructor(
     private val activityPreferences: ActivityPreferencesRepository,
     private val activitySourceRegistry: ActivitySourceRegistry,
     private val activitySyncScheduler: ActivitySyncScheduler,
-    private val dataResetRepository: DataResetRepository
+    private val dataResetRepository: DataResetRepository,
+    private val backupRepository: BackupRepository
 ) : ViewModel() {
+
+    private val _backupState = MutableStateFlow<BackupState>(BackupState.Idle)
+    val backupState: StateFlow<BackupState> = _backupState.asStateFlow()
 
     val themeMode: StateFlow<ThemeMode> = appPreferences.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ThemeMode.AUTO)
@@ -162,9 +171,48 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { dataResetRepository.resetAll() }
     }
 
+    /** Vorschlag für den Dateinamen im Speichern-Dialog, z. B. `fairtrack-2026-07-10.json`. */
+    fun suggestedBackupFileName(): String = "fairtrack-${LocalDate.now()}.json"
+
+    fun exportTo(target: Uri) {
+        viewModelScope.launch {
+            _backupState.value = BackupState.Working
+            _backupState.value = try {
+                backupRepository.export(target, System.currentTimeMillis())
+                BackupState.Message(R.string.settings_backup_export_success)
+            } catch (e: Exception) {
+                BackupState.Message(R.string.settings_backup_export_error)
+            }
+        }
+    }
+
+    fun importFrom(source: Uri) {
+        viewModelScope.launch {
+            _backupState.value = BackupState.Working
+            _backupState.value = when (backupRepository.import(source)) {
+                is ImportResult.Success -> BackupState.Message(R.string.settings_backup_import_success)
+                is ImportResult.TooNew -> BackupState.Message(R.string.settings_backup_import_too_new)
+                ImportResult.Unreadable -> BackupState.Message(R.string.settings_backup_import_unreadable)
+            }
+        }
+    }
+
+    fun consumeBackupState() {
+        _backupState.value = BackupState.Idle
+    }
+
     private companion object {
         const val DISCOVERY_WINDOW_DAYS = 30L
     }
+}
+
+/** Zustand von Export/Import für die UI. */
+sealed interface BackupState {
+    data object Idle : BackupState
+    data object Working : BackupState
+
+    /** Abgeschlossen — [messageRes] wird als Dialog gezeigt. */
+    data class Message(@StringRes val messageRes: Int) : BackupState
 }
 
 /** Eine erkannte Quell-App (Health-Connect-DataOrigin), aufgelöst für die UI. */

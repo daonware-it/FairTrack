@@ -2,6 +2,7 @@ package com.fairtrack.app.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /**
  * Ein abgeschlossenes Fasten-Intervall (v0.13.0) für den Verlauf.
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey
  * Abschluss erzeugt eine Verlaufs-Zeile.
  */
 @Entity(tableName = "fasting_sessions")
+@Serializable
 data class FastingSession(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val startEpochMillis: Long,

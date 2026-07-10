@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.fairtrack.app.data.MeasureUnit
+import kotlinx.serialization.Serializable
 
 /**
  * Ein einzelnes Element einer Mahlzeiten-Vorlage. Nährwerte werden – wie bei
@@ -24,6 +25,7 @@ import com.fairtrack.app.data.MeasureUnit
     ],
     indices = [Index("templateId")]
 )
+@Serializable
 data class MealTemplateItem(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val templateId: Long,

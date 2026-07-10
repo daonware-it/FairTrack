@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -13,10 +14,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.fairtrack.app.R
+import com.fairtrack.app.ui.ExternalLinks
 import com.fairtrack.app.ui.theme.FairTrackTheme
 import com.fairtrack.app.ui.theme.Spacing
 
@@ -36,6 +41,8 @@ class HealthPermissionsRationaleActivity : AppCompatActivity() {
 
 @Composable
 private fun RationaleRoot() {
+    val uriHandler = LocalUriHandler.current
+
     FairTrackTheme(darkTheme = isSystemInDarkTheme(), dynamicColor = false) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -58,6 +65,12 @@ private fun RationaleRoot() {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                TextButton(
+                    onClick = { uriHandler.openUri(ExternalLinks.PRIVACY_POLICY) },
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Text(stringResource(R.string.activity_rationale_privacy_action))
+                }
             }
         }
     }

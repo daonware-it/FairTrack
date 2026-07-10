@@ -1,6 +1,8 @@
 package com.fairtrack.app.ui.settings
 
 import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,12 +26,14 @@ import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.LocalFireDepartment
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Straighten
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -87,6 +91,20 @@ fun SettingsScreen(
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showActivitySourceDialog by remember { mutableStateOf(false) }
     var showResetDialog by remember { mutableStateOf(false) }
+    var showImportDialog by remember { mutableStateOf(false) }
+
+    val backupState by viewModel.backupState.collectAsStateWithLifecycle()
+    val backupBusy = backupState is BackupState.Working
+
+    // CreateDocument legt die Datei über den System-Dateiwähler an; die App braucht
+    // dafür keine Speicherberechtigung und sieht nur die eine gewählte Datei.
+    val exportLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE)
+    ) { uri -> uri?.let(viewModel::exportTo) }
+
+    val importLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri -> uri?.let(viewModel::importFrom) }
 
     val dynamicColorSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
@@ -178,6 +196,24 @@ fun SettingsScreen(
         )
 
         SectionLabel(stringResource(R.string.settings_section_data))
+
+        SettingCard(
+            icon = Icons.Rounded.Upload,
+            title = stringResource(R.string.settings_backup_export),
+            subtitle = stringResource(R.string.settings_backup_export_subtitle),
+            enabled = !backupBusy,
+            showChevron = false,
+            onClick = { exportLauncher.launch(viewModel.suggestedBackupFileName()) }
+        )
+
+        SettingCard(
+            icon = Icons.Rounded.Download,
+            title = stringResource(R.string.settings_backup_import),
+            subtitle = stringResource(R.string.settings_backup_import_subtitle),
+            enabled = !backupBusy,
+            showChevron = false,
+            onClick = { showImportDialog = true }
+        )
 
         SettingCard(
             icon = Icons.Rounded.DeleteForever,
@@ -287,7 +323,49 @@ fun SettingsScreen(
             }
         )
     }
+
+    // Der Import überschreibt den Bestand — deshalb wird gefragt, bevor der
+    // Dateiwähler überhaupt aufgeht.
+    if (showImportDialog) {
+        AlertDialog(
+            onDismissRequest = { showImportDialog = false },
+            icon = { Icon(Icons.Rounded.Download, contentDescription = null) },
+            title = { Text(stringResource(R.string.settings_backup_import_dialog_title)) },
+            text = { Text(stringResource(R.string.settings_backup_import_dialog_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showImportDialog = false
+                        // Manche Dateimanager geben JSON als octet-stream aus; beide zulassen,
+                        // sonst ist die eigene Sicherung im Wähler ausgegraut.
+                        importLauncher.launch(arrayOf(BACKUP_MIME_TYPE, "application/octet-stream"))
+                    }
+                ) {
+                    Text(stringResource(R.string.settings_backup_import_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showImportDialog = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            }
+        )
+    }
+
+    (backupState as? BackupState.Message)?.let { state ->
+        AlertDialog(
+            onDismissRequest = viewModel::consumeBackupState,
+            text = { Text(stringResource(state.messageRes)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::consumeBackupState) {
+                    Text(stringResource(R.string.action_ok))
+                }
+            }
+        )
+    }
 }
+
+private const val BACKUP_MIME_TYPE = "application/json"
 
 /**
  * Auswahl der einzahlenden Apps (Health-Connect-DataOrigins). Semantik der

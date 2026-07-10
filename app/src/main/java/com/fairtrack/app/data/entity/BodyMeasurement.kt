@@ -2,6 +2,7 @@ package com.fairtrack.app.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /**
  * Körpermaße für einen Tag (v0.12.0). epochDay ist Primärschlüssel, damit pro Tag
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey
  * Anzeige-/Eingabeschicht (siehe [com.fairtrack.app.data.UnitFormatter]).
  */
 @Entity(tableName = "body_measurements")
+@Serializable
 data class BodyMeasurement(
     @PrimaryKey val epochDay: Long,
     val waistCm: Double? = null,

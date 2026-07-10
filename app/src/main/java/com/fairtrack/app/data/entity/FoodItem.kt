@@ -4,12 +4,14 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.fairtrack.app.data.Micronutrients
+import kotlinx.serialization.Serializable
 
 /**
  * Ein Lebensmittel mit Nährwerten pro 100 g.
  * Quelle kann später Open Food Facts, Barcode oder manuelle Eingabe sein.
  */
 @Entity(tableName = "food_items")
+@Serializable
 data class FoodItem(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

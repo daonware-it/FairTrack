@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,10 +30,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fairtrack.app.BuildConfig
 import com.fairtrack.app.R
+import com.fairtrack.app.ui.ExternalLinks
 import com.fairtrack.app.ui.theme.Spacing
 
 /**
- * "Über uns": App-Version und die Herkunft der Nährwertdaten.
+ * "Über uns": App-Version, die Herkunft der Nährwertdaten und der Spendenlink.
  *
  * Die Quellenangabe ist keine Höflichkeit, sondern Lizenzpflicht: Open Food Facts
  * steht unter der Open Database License (ODbL) 1.0, der Bundeslebensmittelschlüssel
@@ -106,12 +110,82 @@ fun AboutScreen(
                 url = null
             )
 
+            SectionLabel(stringResource(R.string.about_section_support))
+
+            DonationCard()
+
+            SectionLabel(stringResource(R.string.about_section_privacy))
+
+            SourceCard(
+                name = stringResource(R.string.about_privacy_name),
+                description = stringResource(R.string.about_privacy_description),
+                license = null,
+                url = ExternalLinks.PRIVACY_POLICY
+            )
+
             Text(
                 text = stringResource(R.string.about_disclaimer),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = Spacing.sm)
             )
+        }
+    }
+}
+
+/**
+ * Spendenkarte.
+ *
+ * Der Hinweis, dass eine Spende nichts freischaltet, ist nicht bloß Bescheidenheit:
+ * Google Play verlangt für jede Zahlung, die In-App-Inhalte zugänglich macht, die
+ * Abwicklung über Play Billing. Freiwillige Spenden ohne Gegenleistung sind davon
+ * ausgenommen — deshalb darf hier nie ein Vorteil versprochen werden.
+ */
+@Composable
+private fun DonationCard() {
+    val uriHandler = LocalUriHandler.current
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(Spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+        ) {
+            Text(
+                text = stringResource(R.string.about_donate_name),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = stringResource(R.string.about_donate_description),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.about_donate_note),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = Spacing.xxs)
+            )
+            FilledTonalButton(
+                onClick = { uriHandler.openUri(ExternalLinks.DONATION) },
+                modifier = Modifier.padding(top = Spacing.sm)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.FavoriteBorder,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = stringResource(R.string.about_donate_action),
+                    modifier = Modifier.padding(start = Spacing.sm)
+                )
+            }
         }
     }
 }

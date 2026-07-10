@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fairtrack.app.data.dao.ActivityEntryDao
+import com.fairtrack.app.data.dao.BackupDao
 import com.fairtrack.app.data.dao.BodyMeasurementDao
 import com.fairtrack.app.data.dao.DiaryEntryDao
 import com.fairtrack.app.data.dao.DishDao
@@ -56,6 +57,7 @@ abstract class FairTrackDatabase : RoomDatabase() {
     abstract fun bodyMeasurementDao(): BodyMeasurementDao
     abstract fun fastingSessionDao(): FastingSessionDao
     abstract fun activityEntryDao(): ActivityEntryDao
+    abstract fun backupDao(): BackupDao
 
     companion object {
         const val NAME = "fairtrack.db"

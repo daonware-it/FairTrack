@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /**
  * Eine Zutat eines Gerichts. Nährwerte werden pro 100 g gespeichert, damit
@@ -15,6 +16,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(entity = Dish::class, parentColumns = ["id"], childColumns = ["dishId"], onDelete = ForeignKey.CASCADE)],
     indices = [Index("dishId")]
 )
+@Serializable
 data class DishIngredient(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val dishId: Long,

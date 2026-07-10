@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.fairtrack.app.data.MealType
 import com.fairtrack.app.data.MeasureUnit
 import com.fairtrack.app.data.Micronutrients
+import kotlinx.serialization.Serializable
 
 /**
  * Ein Tagebuch-Eintrag: ein Lebensmittel, das an einem Tag zu einer Mahlzeit
@@ -15,6 +16,7 @@ import com.fairtrack.app.data.Micronutrients
  * spätere Änderungen am FoodItem alte Einträge nicht verfälschen.
  */
 @Entity(tableName = "diary_entries")
+@Serializable
 data class DiaryEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

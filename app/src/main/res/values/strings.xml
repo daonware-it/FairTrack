@@ -148,6 +148,18 @@
     <string name="settings_section_appearance">Darstellung</string>
     <string name="settings_section_general">Allgemein</string>
     <string name="settings_section_data">Daten</string>
+    <string name="settings_backup_export">Daten sichern</string>
+    <string name="settings_backup_export_subtitle">Alle Einträge und dein Profil als Datei speichern</string>
+    <string name="settings_backup_export_success">Sicherung gespeichert.</string>
+    <string name="settings_backup_export_error">Die Sicherung konnte nicht geschrieben werden.</string>
+    <string name="settings_backup_import">Daten wiederherstellen</string>
+    <string name="settings_backup_import_subtitle">Eine zuvor gespeicherte Sicherung einlesen</string>
+    <string name="settings_backup_import_dialog_title">Sicherung einlesen?</string>
+    <string name="settings_backup_import_dialog_message">Alle Einträge, die jetzt in FairTrack stehen, werden durch die Sicherung ersetzt. Was seit der Sicherung dazugekommen ist, geht verloren.</string>
+    <string name="settings_backup_import_confirm">Datei wählen</string>
+    <string name="settings_backup_import_success">Sicherung eingelesen.</string>
+    <string name="settings_backup_import_unreadable">Diese Datei ist keine FairTrack-Sicherung oder beschädigt. Deine Daten wurden nicht verändert.</string>
+    <string name="settings_backup_import_too_new">Diese Sicherung stammt aus einer neueren Version von FairTrack. Aktualisiere die App, um sie einzulesen.</string>
 
     <string name="settings_theme">Design</string>
     <string name="settings_theme_subtitle">Hell, dunkel oder wie das System</string>
@@ -348,6 +360,14 @@
     <string name="about_bls_license">Lizenziert unter CC BY 4.0.</string>
     <string name="about_health_connect_name">Health Connect</string>
     <string name="about_health_connect_description">Schritte und verbrannte Kalorien liest FairTrack auf Wunsch aus Health Connect. Welche Apps einzahlen, bestimmst du in den Einstellungen.</string>
+    <string name="about_section_support">Unterstützen</string>
+    <string name="about_donate_name">FairTrack unterstützen</string>
+    <string name="about_donate_description">FairTrack ist kostenlos, werbefrei und verkauft keine Daten. Eine Spende deckt die laufenden Kosten und finanziert die Arbeit an neuen Funktionen.</string>
+    <string name="about_donate_note">Freiwillig und ohne Gegenleistung: Es werden keine Funktionen freigeschaltet. FairTrack bleibt für alle vollständig nutzbar.</string>
+    <string name="about_donate_action">Spenden über Stripe</string>
+    <string name="about_section_privacy">Datenschutz</string>
+    <string name="about_privacy_name">Datenschutzerklärung</string>
+    <string name="about_privacy_description">Welche Daten FairTrack erhebt, wo sie liegen und wann die App mit einem Server spricht.</string>
     <string name="about_disclaimer">Nährwertangaben können von den Werten auf der Verpackung abweichen. FairTrack ersetzt keine medizinische Beratung.</string>
 
     <!-- Tagebuch: Verlauf über mehrere Tage (v0.15.0) -->
@@ -492,6 +512,7 @@
     <string name="activity_connect">Verbinden</string>
     <string name="activity_rationale_title">Bewegungsdaten in FairTrack</string>
     <string name="activity_rationale_body">FairTrack liest deine Schritte und aktiv verbrannten Kalorien aus Health Connect, um sie auf dem Home-Screen anzuzeigen und – falls du das aktivierst – dein tägliches Kalorienbudget anzupassen. Die Daten bleiben auf deinem Gerät und werden nicht an Dritte weitergegeben.</string>
+    <string name="activity_rationale_privacy_action">Datenschutzerklärung lesen</string>
     <string name="activity_source_health_connect">Health Connect</string>
 
     <!-- Einstellungen: Bewegung (v0.14.0) -->

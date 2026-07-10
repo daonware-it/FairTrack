@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /**
  * Eine benannte Portion für ein Lebensmittel (z.B. "Scheibe" = 25 g).
@@ -14,6 +15,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(entity = FoodItem::class, parentColumns = ["id"], childColumns = ["foodItemId"], onDelete = ForeignKey.CASCADE)],
     indices = [Index("foodItemId")]
 )
+@Serializable
 data class FoodPortion(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val foodItemId: Long,

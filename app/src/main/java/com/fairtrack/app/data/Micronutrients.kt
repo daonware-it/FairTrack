@@ -2,6 +2,7 @@ package com.fairtrack.app.data
 
 import androidx.room.ColumnInfo
 import com.fairtrack.app.R
+import kotlinx.serialization.Serializable
 
 /**
  * Mikronährstoffe (Vitamine, Mineralstoffe, Spurenelemente) pro 100 g bzw. – als
@@ -17,6 +18,7 @@ import com.fairtrack.app.R
  * Als `@Embedded` in FoodItem und DiaryEntry eingebettet -> jede Eigenschaft wird
  * zu einer eigenen nullable REAL-Spalte mit exakt diesem Spaltennamen.
  */
+@Serializable
 data class Micronutrients(
     @ColumnInfo(name = "vitaminA") val vitaminA: Double? = null,       // µg
     @ColumnInfo(name = "vitaminD") val vitaminD: Double? = null,       // µg

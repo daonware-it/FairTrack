@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.fairtrack.app.data.ALL_MIGRATIONS
 import com.fairtrack.app.data.FairTrackDatabase
 import com.fairtrack.app.data.dao.ActivityEntryDao
+import com.fairtrack.app.data.dao.BackupDao
 import com.fairtrack.app.data.dao.BodyMeasurementDao
 import com.fairtrack.app.data.dao.DiaryEntryDao
 import com.fairtrack.app.data.dao.DishDao
@@ -81,4 +82,8 @@ object DatabaseModule {
     @Provides
     fun provideActivityEntryDao(database: FairTrackDatabase): ActivityEntryDao =
         database.activityEntryDao()
+
+    @Provides
+    fun provideBackupDao(database: FairTrackDatabase): BackupDao =
+        database.backupDao()
 }
