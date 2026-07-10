@@ -139,8 +139,18 @@ jobs:
           apksigner="$(find "$ANDROID_HOME/build-tools" -name apksigner | sort | tail -1)"
           "$apksigner" verify --verbose --print-certs \
             app/build/outputs/apk/release/app-release.apk
-          jarsigner -verify -strict \
-            app/build/outputs/bundle/release/app-release.aab
+
+          # No -strict: on an AAB it turns jarsigner's harmless "signed in JarFile
+          # but not in JarInputStream" notice into a failure. -J-Duser.language=en
+          # pins the message language so the grep below cannot pass by accident.
+          aab_check="$(jarsigner -J-Duser.language=en -verify \
+            app/build/outputs/bundle/release/app-release.aab)"
+          if ! grep -q 'jar verified' <<< "$aab_check"; then
+            echo "$aab_check" | tail -5
+            echo "::error::AAB is not signed"
+            exit 1
+          fi
+          echo "AAB: jar verified"
 
       - name: Shred the keystore
         if: always()

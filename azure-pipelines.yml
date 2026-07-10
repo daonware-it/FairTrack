@@ -125,10 +125,21 @@ stages:
 
           # Ein AAB ist ein Jar: jarsigner prueft die Signatur, apksigner kann es nicht.
           # Ohne diesen Schritt faellt eine fehlende AAB-Signatur erst im Play-Upload auf.
+          #
+          # Kein -strict: Bei einem AAB macht das aus jarsigners harmlosem Hinweis
+          # "signed in JarFile but not in JarInputStream" einen Fehler. Und
+          # -J-Duser.language=en nagelt die Sprache der Meldung fest, damit das
+          # grep unten nicht auf einem deutschen Agenten still danebengreift.
           - script: |
               set -euo pipefail
-              jarsigner -verify -strict \
-                app/build/outputs/bundle/release/app-release.aab
+              aab_check="$(jarsigner -J-Duser.language=en -verify \
+                app/build/outputs/bundle/release/app-release.aab)"
+              if ! grep -q 'jar verified' <<< "$aab_check"; then
+                echo "$aab_check" | tail -5
+                echo "##vso[task.logissue type=error]AAB ist nicht signiert"
+                exit 1
+              fi
+              echo "AAB: jar verified"
             displayName: AAB-Signatur verifizieren
 
           # versionCode gegen den Tag halten: Ein Tag v1.0.1 auf einem Commit mit
