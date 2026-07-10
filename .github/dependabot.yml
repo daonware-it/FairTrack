@@ -1,5 +1,8 @@
 # Dependabot opens the pull requests; the Dependabot *alerts* GitHub already
 # shows only tell us a vulnerable version exists, they don't fix anything.
+#
+# Tuned for a single maintainer working on main: everything that can be batched
+# is batched, so a normal week produces one PR per ecosystem rather than eight.
 
 version: 2
 
@@ -11,35 +14,57 @@ updates:
     schedule:
       interval: weekly
       day: monday
+    open-pull-requests-limit: 2
     commit-message:
       prefix: 'FAIR-58 CI:'
     labels:
       - dependencies
       - github-actions
+    groups:
+      actions:
+        patterns:
+          - '*'
+    ignore:
+      # A major bump of an action is a rewrite of its inputs as often as not
+      # (upload-artifact v4 -> v7 changed artifact naming outright). Those are
+      # read and applied by hand.
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: gradle
     directory: /
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
     commit-message:
       prefix: 'FAIR-58 deps:'
     labels:
       - dependencies
     groups:
-      # AndroidX ships dozens of artifacts that move together; one PR per
-      # artifact would bury everything else.
-      androidx:
+      # One PR for every routine library bump. Splitting them per artifact is
+      # what produced eight open PRs on day one.
+      all-dependencies:
         patterns:
-          - 'androidx.*'
-      compose:
-        patterns:
-          - 'androidx.compose*'
+          - '*'
+        update-types:
+          - minor
+          - patch
     ignore:
-      # AGP and the Kotlin/KSP trio have to move in lockstep with each other and
-      # with the Compose compiler. Dependabot cannot see that constraint and its
-      # PRs for them never build. Bump these by hand.
-      - dependency-name: 'com.android.tools.build:gradle'
-      - dependency-name: 'org.jetbrains.kotlin:*'
-      - dependency-name: 'com.google.devtools.ksp:*'
+      # Majors move by hand: OkHttp 4 -> 5 alone changes public API.
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+
+      # AGP, Kotlin and KSP must move in lockstep with each other and with the
+      # Compose compiler. Dependabot cannot see that constraint and its PRs for
+      # them never build.
+      #
+      # NOTE: in a version catalog, Dependabot names a *plugin* by its plugin id
+      # ("org.jetbrains.kotlin.plugin.compose"), not by a maven coordinate. A
+      # pattern like "org.jetbrains.kotlin:*" therefore matches nothing — that
+      # mistake is what let a Kotlin 2.4.0 PR through.
+      - dependency-name: 'com.android.*'
+      - dependency-name: 'org.jetbrains.kotlin.*'
+      - dependency-name: 'com.google.devtools.ksp*'
