@@ -146,16 +146,25 @@ jobs:
         if: always()
         run: shred -u "$RUNNER_TEMP/upload-keystore.jks" 2>/dev/null || true
 
-      # Named after the tag so a downloaded file still says which build it is.
+      # Only the APK goes public: testers install that. The AAB is for the Play
+      # Console and the R8 mapping only helps someone reverse-engineer the app,
+      # so both stay behind the repo as workflow artifacts.
       - name: Name the artifacts after the release
         run: |
-          mkdir -p dist
+          mkdir -p dist private
           cp app/build/outputs/apk/release/app-release.apk "dist/FairTrack-$TAG.apk"
-          cp app/build/outputs/bundle/release/app-release.aab "dist/FairTrack-$TAG.aab"
-          # R8 mapping: without it, Play Console crash reports stay obfuscated.
-          cp app/build/outputs/mapping/release/mapping.txt "dist/mapping-$TAG.txt"
-          sha256sum dist/* > "dist/checksums-$TAG.txt"
+          cp app/build/outputs/bundle/release/app-release.aab "private/FairTrack-$TAG.aab"
+          # Without the mapping, Play Console crash reports stay obfuscated.
+          cp app/build/outputs/mapping/release/mapping.txt "private/mapping-$TAG.txt"
+          sha256sum dist/*.apk private/* > "dist/checksums-$TAG.txt"
           cat "dist/checksums-$TAG.txt"
+
+      - name: Upload AAB and mapping (repo members only)
+        uses: actions/upload-artifact@v4
+        with:
+          name: play-upload-${{ env.TAG }}
+          path: private/
+          retention-days: 90
 
       # `gh` ships on the runner, so no third-party action gets access to the
       # freshly signed binaries. --notes-file keeps the body out of the YAML.
@@ -167,15 +176,15 @@ jobs:
           cat > release-notes.md <<'NOTES'
           ## Installation
 
-          Lade `FairTrack-<version>.apk` herunter und installiere sie direkt.
+          Lade die `.apk` herunter und installiere sie direkt. Diese Version ist für
+          Tester gedacht.
 
-          Das APK ist mit dem Upload-Schlüssel signiert, nicht mit dem Schlüssel,
-          den Google Play verteilt — ein sideloadetes APK lässt sich daher **nicht**
-          durch ein Play-Update ersetzen und umgekehrt. Wer die App aus dem Play
-          Store bezieht, sollte sie auch von dort aktualisieren.
+          Sie ist mit einem eigenen Testing-Schlüssel signiert, nicht mit dem, den
+          Google Play verteilt. Ein sideloadetes APK und eine Installation aus dem
+          Play Store können einander deshalb **nicht** aktualisieren — wer die App aus
+          dem Store hat, muss sie erst deinstallieren, und umgekehrt.
 
-          `FairTrack-<version>.aab` ist für den Play-Console-Upload, `mapping-<version>.txt`
-          entschlüsselt die Crash-Reports. Beide werden von Endnutzern nicht gebraucht.
+          Die Prüfsummen der Datei stehen in `checksums-<version>.txt`.
           NOTES
 
           if gh release view "$TAG" > /dev/null 2>&1; then
