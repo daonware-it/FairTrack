@@ -73,6 +73,20 @@ android {
             )
         }
     }
+    lint {
+        // Die CI wertet den XML-Bericht aus; HTML ist für den Menschen, der danach
+        // in das Artefakt schaut.
+        xmlReport = true
+        htmlReport = true
+        // Ein roter Lint-Lauf soll die Analyse-Stage kippen, nicht erst den
+        // Release-Build über lintVitalRelease.
+        warningsAsErrors = false
+        abortOnError = true
+        // Übersetzungen sind in values-en/-es gepflegt; fehlende Sprachen meldet
+        // MissingTranslation sonst bei jedem neuen String.
+        disable += "MissingTranslation"
+    }
+
     compileOptions {
         // java.time (LocalDate) auf minSdk 24 nutzbar machen.
         isCoreLibraryDesugaringEnabled = true

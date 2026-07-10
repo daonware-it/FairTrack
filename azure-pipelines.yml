@@ -1,4 +1,4 @@
-# Signierter Release-Build für FairTrack.
+# CI/CD für FairTrack: prüfen, signiert bauen, für Google Play bereitstellen.
 #
 # Voraussetzungen in Azure DevOps (einmalig, siehe docs/azure-pipelines.md):
 #   1. Library > Secure files: Upload-Keystore als `fairtrack-upload-keystore.jks`
@@ -21,7 +21,12 @@ trigger:
     include:
       - 'v*'
 
-pr: none
+# Auf PRs läuft nur Verify: Der Build braucht Signing-Secrets, und die gibt
+# Azure DevOps einem PR aus einem Fork nicht heraus.
+pr:
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: ubuntu-latest
@@ -32,52 +37,71 @@ variables:
     value: $(Pipeline.Workspace)/.gradle
 
 stages:
+  - stage: Verify
+    displayName: Tests und Analyse
+    jobs:
+      # Tests und Lint laufen als getrennte Jobs, damit ein Lint-Befund nicht
+      # verdeckt, welche Tests gefallen wären - beide Berichte liegen am Ende vor.
+      - job: UnitTests
+        displayName: Unit-Tests
+        steps:
+          - template: .azure/steps-android-setup.yml
+
+          - script: ./gradlew --no-daemon testDebugUnitTest
+            displayName: Unit-Tests ausführen
+
+          # condition: always() - gerade der rote Lauf soll seinen Bericht abliefern.
+          - task: PublishTestResults@2
+            displayName: Testergebnisse veröffentlichen
+            condition: always()
+            inputs:
+              testResultsFormat: JUnit
+              testResultsFiles: 'app/build/test-results/testDebugUnitTest/TEST-*.xml'
+              testRunTitle: 'Unit-Tests (debug)'
+              failTaskOnFailedTests: true
+
+          - script: ./gradlew --stop || true
+            displayName: Gradle-Daemon stoppen
+            condition: always()
+
+      - job: StaticAnalysis
+        displayName: Android Lint
+        steps:
+          - template: .azure/steps-android-setup.yml
+
+          # lint.abortOnError=true (build.gradle.kts) laesst den Task bei Fehlern
+          # kippen; der Bericht wird trotzdem geschrieben und unten eingesammelt.
+          - script: ./gradlew --no-daemon lintDebug
+            displayName: Lint ausführen
+
+          - task: PublishPipelineArtifact@1
+            displayName: Lint-Bericht veröffentlichen
+            condition: always()
+            inputs:
+              targetPath: app/build/reports
+              artifact: fairtrack-lint-report
+
+          - script: ./gradlew --stop || true
+            displayName: Gradle-Daemon stoppen
+            condition: always()
+
   - stage: Build
     displayName: Release bauen
+    dependsOn: Verify
+    # Signing-Secrets gibt es im PR-Kontext nicht; der Build wuerde unsigniert
+    # und damit still nutzlos durchlaufen.
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: BuildRelease
         displayName: Signiertes APK + AAB
         steps:
-          - checkout: self
-            fetchDepth: 1
-
-          # Gradle 9.6 und AGP 9 verlangen mindestens JDK 17.
-          - task: JavaToolInstaller@0
-            displayName: JDK 17 auswählen
-            inputs:
-              versionSpec: '17'
-              jdkArchitectureOption: x64
-              jdkSourceOption: PreInstalled
-
-          # Der Agent bringt nicht zwingend genau das compileSdk mit.
-          - script: |
-              set -euo pipefail
-              SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
-              yes | "$SDKMANAGER" --licenses > /dev/null
-              "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0" > /dev/null
-            displayName: Android SDK Platform 36 installieren
-
-          # Beschleunigt Folgeläufe; der Key hängt an Wrapper- und Dependency-Definition.
-          - task: Cache@2
-            displayName: Gradle-Cache
-            inputs:
-              key: 'gradle | "$(Agent.OS)" | gradle/wrapper/gradle-wrapper.properties, gradle/libs.versions.toml'
-              restoreKeys: |
-                gradle | "$(Agent.OS)"
-              path: $(GRADLE_USER_HOME)
+          - template: .azure/steps-android-setup.yml
 
           - task: DownloadSecureFile@1
             name: keystoreFile
             displayName: Upload-Keystore laden
             inputs:
               secureFile: fairtrack-upload-keystore.jks
-
-          # Unit-Tests laufen vor dem Release-Build (z. B. OFF-Parsing-Regression).
-          - script: |
-              set -euo pipefail
-              chmod +x ./gradlew
-              ./gradlew --no-daemon testDebugUnitTest
-            displayName: Unit-Tests ausführen
 
           # Secret-Variablen werden von Azure DevOps bewusst NICHT automatisch in die
           # Umgebung gespiegelt – sie müssen hier explizit durchgereicht werden.
@@ -99,6 +123,29 @@ stages:
                 app/build/outputs/apk/release/app-release.apk
             displayName: APK-Signatur verifizieren
 
+          # Ein AAB ist ein Jar: jarsigner prueft die Signatur, apksigner kann es nicht.
+          # Ohne diesen Schritt faellt eine fehlende AAB-Signatur erst im Play-Upload auf.
+          - script: |
+              set -euo pipefail
+              jarsigner -verify -strict \
+                app/build/outputs/bundle/release/app-release.aab
+            displayName: AAB-Signatur verifizieren
+
+          # versionCode gegen den Tag halten: Ein Tag v1.0.1 auf einem Commit mit
+          # altem versionCode wuerde erst die Play Console ablehnen - hier faellt es
+          # in Sekunden auf statt nach dem Upload.
+          - script: |
+              set -euo pipefail
+              VERSION_NAME="$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)"
+              TAG="${BUILD_SOURCEBRANCHNAME}"
+              echo "versionName=$VERSION_NAME tag=$TAG"
+              if [ "v$VERSION_NAME" != "$TAG" ]; then
+                echo "##vso[task.logissue type=error]Tag $TAG passt nicht zu versionName $VERSION_NAME"
+                exit 1
+              fi
+            displayName: versionName gegen Release-Tag prüfen
+            condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+
           - task: PublishPipelineArtifact@1
             displayName: APK veröffentlichen
             inputs:
@@ -110,6 +157,13 @@ stages:
             inputs:
               targetPath: app/build/outputs/bundle/release/app-release.aab
               artifact: fairtrack-aab
+
+          # ProGuard/R8-Mapping: Ohne die Datei sind Play-Console-Crashes nicht lesbar.
+          - task: PublishPipelineArtifact@1
+            displayName: R8-Mapping veröffentlichen
+            inputs:
+              targetPath: app/build/outputs/mapping/release/mapping.txt
+              artifact: fairtrack-mapping
 
           # Verhindert, dass der Daemon den Cache mit veränderlichen Lockfiles vergiftet.
           - script: ./gradlew --stop || true
@@ -133,8 +187,12 @@ stages:
                 - download: current
                   artifact: fairtrack-aab
                   displayName: AAB abholen
+                - download: current
+                  artifact: fairtrack-mapping
+                  displayName: R8-Mapping abholen
                 - script: |
                     set -euo pipefail
                     echo "Release $(Build.SourceBranchName) bereit für den Play-Console-Upload:"
                     ls -la "$(Pipeline.Workspace)/fairtrack-aab"
+                    ls -la "$(Pipeline.Workspace)/fairtrack-mapping"
                   displayName: Deployment protokollieren
