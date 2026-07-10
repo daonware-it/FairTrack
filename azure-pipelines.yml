@@ -5,8 +5,14 @@
 #   2. Library > Variable groups: Gruppe `fairtrack-signing` mit den als *secret*
 #      markierten Variablen KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
 #
-# Ergebnis: signiertes APK (Direktinstallation/Tester) und signiertes AAB
-# (Upload zu Google Play, das dort per Play App Signing neu signiert wird).
+# Ergebnis: ein signiertes AAB für den Upload zu Google Play, das dort per
+# Play App Signing neu signiert wird.
+#
+# Das APK für Tester baut bewusst NICHT diese Pipeline, sondern der Workflow
+# .github/workflows/release.yml – und zwar mit einem eigenen Testing-Key. So
+# liegt jeder Schlüssel an genau einem Ort: der Play-Upload-Key hier in den
+# Secure Files, der Testing-Key in den GitHub-Secrets. Wird einer davon
+# kompromittiert, ist der andere Weg unberührt.
 #
 # Jira (Projekt FAIR): Die Deploy-Stage läuft als Deployment-Job gegen das
 # Environment `fairtrack-production`. Mit installierter "Azure Pipelines for
@@ -93,7 +99,7 @@ stages:
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: BuildRelease
-        displayName: Signiertes APK + AAB
+        displayName: Signiertes AAB für Google Play
         steps:
           - template: .azure/steps-android-setup.yml
 
@@ -103,25 +109,23 @@ stages:
             inputs:
               secureFile: fairtrack-upload-keystore.jks
 
+          # Nur bundleRelease, kein assembleRelease: Das Tester-APK baut der
+          # GitHub-Workflow (.github/workflows/release.yml) mit einem eigenen
+          # Testing-Key. Ein APK von hier traege den Play-Upload-Key, waere fuer
+          # Tester nicht besser und zwaenge uns, den Upload-Key an einen zweiten
+          # Ort zu legen.
+          #
           # Secret-Variablen werden von Azure DevOps bewusst NICHT automatisch in die
           # Umgebung gespiegelt – sie müssen hier explizit durchgereicht werden.
           - script: |
               set -euo pipefail
-              ./gradlew --no-daemon assembleRelease bundleRelease
-            displayName: Release bauen und signieren
+              ./gradlew --no-daemon bundleRelease
+            displayName: AAB bauen und signieren
             env:
               KEYSTORE_FILE: $(keystoreFile.secureFilePath)
               KEYSTORE_PASSWORD: $(KEYSTORE_PASSWORD)
               KEY_ALIAS: $(KEY_ALIAS)
               KEY_PASSWORD: $(KEY_PASSWORD)
-
-          # Ein unsigniertes Artefakt wäre sonst still erfolgreich – hier bricht es ab.
-          - script: |
-              set -euo pipefail
-              APKSIGNER="$(find "$ANDROID_SDK_ROOT/build-tools" -name apksigner | sort | tail -1)"
-              "$APKSIGNER" verify --verbose --print-certs \
-                app/build/outputs/apk/release/app-release.apk
-            displayName: APK-Signatur verifizieren
 
           # Ein AAB ist ein Jar: jarsigner prueft die Signatur, apksigner kann es nicht.
           # Ohne diesen Schritt faellt eine fehlende AAB-Signatur erst im Play-Upload auf.
@@ -156,12 +160,6 @@ stages:
               fi
             displayName: versionName gegen Release-Tag prüfen
             condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
-
-          - task: PublishPipelineArtifact@1
-            displayName: APK veröffentlichen
-            inputs:
-              targetPath: app/build/outputs/apk/release/app-release.apk
-              artifact: fairtrack-apk
 
           - task: PublishPipelineArtifact@1
             displayName: AAB veröffentlichen
