@@ -5,14 +5,19 @@
 #   - or run it by hand from the Actions tab, passing the tag to release
 #
 # Required repository secrets (Settings > Secrets and variables > Actions):
-#   KEYSTORE_BASE64    base64 of upload-keystore.jks  (see docs/azure-pipelines.md)
+#   KEYSTORE_BASE64    base64 of github-testing-keystore.jks
 #   KEYSTORE_PASSWORD  store password
-#   KEY_ALIAS          key alias
+#   KEY_ALIAS          key alias (fairtrack-testing)
 #   KEY_PASSWORD       key password
 #
-# The APK is signed with the *upload* key. Google Play re-signs installs with the
-# Play App Signing key, so a sideloaded APK and a Play install can never update
-# one another. That caveat is repeated in the release body for users.
+# This is a *testing* key, deliberately not the Play upload key: that one lives
+# only on the maintainer's machine and in the Azure secure files, so a leak here
+# cannot cost us the Play listing. The AAB this workflow builds is therefore not
+# uploadable to Play — azure-pipelines.yml produces that one.
+#
+# Either way, Google Play re-signs installs with the Play App Signing key, so a
+# sideloaded APK and a Play install can never update one another. That caveat is
+# repeated in the release body for users.
 
 name: Release
 
@@ -37,13 +42,16 @@ concurrency:
   group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 
-permissions:
-  contents: write
+# Deny by default. The job below grants itself only `contents: write`, which is
+# what `gh release` needs — nothing else.
+permissions: {}
 
 jobs:
   release:
     name: Build and publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       TAG: ${{ inputs.tag || github.ref_name }}
 
@@ -67,23 +75,23 @@ jobs:
           fi
 
       - name: Check out the tag
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ env.TAG }}
           fetch-depth: 0
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
         with:
           distribution: temurin
           java-version: '17'
 
       # Fails the build if gradle-wrapper.jar was tampered with.
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
+        uses: gradle/actions/wrapper-validation@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
       # The runner image does not necessarily ship the exact compileSdk.
       - name: Install Android SDK platform 36
@@ -111,68 +119,56 @@ jobs:
 
       - name: Upload lint report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: lint-report
           path: app/build/reports/lint-results-debug.*
 
       # Written outside the workspace so it can never be picked up by a build
       # step, an artifact upload, or a stray `git add`.
-      - name: Decode upload keystore
+      - name: Decode testing keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload-keystore.jks"
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/testing-keystore.jks"
 
-      - name: Build signed APK and AAB
+      # Only assembleRelease: an AAB signed with the testing key is worthless,
+      # because Play only accepts the upload key. azure-pipelines.yml builds that.
+      - name: Build signed APK
         env:
-          KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
+          KEYSTORE_FILE: ${{ runner.temp }}/testing-keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew --no-daemon assembleRelease bundleRelease
+        run: ./gradlew --no-daemon assembleRelease
 
-      # Without this an unsigned artifact sails through and only fails on the
-      # user's device (APK) or at the Play upload (AAB).
-      - name: Verify signatures
+      # Without this an unsigned APK sails through here and only fails on the
+      # tester's device.
+      - name: Verify APK signature
         run: |
           apksigner="$(find "$ANDROID_HOME/build-tools" -name apksigner | sort | tail -1)"
           "$apksigner" verify --verbose --print-certs \
             app/build/outputs/apk/release/app-release.apk
 
-          # No -strict: on an AAB it turns jarsigner's harmless "signed in JarFile
-          # but not in JarInputStream" notice into a failure. -J-Duser.language=en
-          # pins the message language so the grep below cannot pass by accident.
-          aab_check="$(jarsigner -J-Duser.language=en -verify \
-            app/build/outputs/bundle/release/app-release.aab)"
-          if ! grep -q 'jar verified' <<< "$aab_check"; then
-            echo "$aab_check" | tail -5
-            echo "::error::AAB is not signed"
-            exit 1
-          fi
-          echo "AAB: jar verified"
-
       - name: Shred the keystore
         if: always()
-        run: shred -u "$RUNNER_TEMP/upload-keystore.jks" 2>/dev/null || true
+        run: shred -u "$RUNNER_TEMP/testing-keystore.jks" 2>/dev/null || true
 
-      # Only the APK goes public: testers install that. The AAB is for the Play
-      # Console and the R8 mapping only helps someone reverse-engineer the app,
-      # so both stay behind the repo as workflow artifacts.
+      # Only the APK goes public: testers install that. The R8 mapping merely
+      # helps someone reverse-engineer the app, so it stays a repo artifact.
       - name: Name the artifacts after the release
         run: |
           mkdir -p dist private
           cp app/build/outputs/apk/release/app-release.apk "dist/FairTrack-$TAG.apk"
-          cp app/build/outputs/bundle/release/app-release.aab "private/FairTrack-$TAG.aab"
-          # Without the mapping, Play Console crash reports stay obfuscated.
+          # Needed to read stack traces from testers running this exact build.
           cp app/build/outputs/mapping/release/mapping.txt "private/mapping-$TAG.txt"
           sha256sum dist/*.apk private/* > "dist/checksums-$TAG.txt"
           cat "dist/checksums-$TAG.txt"
 
-      - name: Upload AAB and mapping (repo members only)
-        uses: actions/upload-artifact@v4
+      - name: Upload R8 mapping (repo members only)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: play-upload-${{ env.TAG }}
+          name: mapping-${{ env.TAG }}
           path: private/
           retention-days: 90
 

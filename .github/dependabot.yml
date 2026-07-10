@@ -1,0 +1,45 @@
+# Dependabot opens the pull requests; the Dependabot *alerts* GitHub already
+# shows only tell us a vulnerable version exists, they don't fix anything.
+
+version: 2
+
+updates:
+  # Keeps the commit SHAs our workflows are pinned to current. Without this,
+  # pinning would quietly freeze the actions on an old, unpatched commit.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    commit-message:
+      prefix: 'FAIR-58 CI:'
+    labels:
+      - dependencies
+      - github-actions
+
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'FAIR-58 deps:'
+    labels:
+      - dependencies
+    groups:
+      # AndroidX ships dozens of artifacts that move together; one PR per
+      # artifact would bury everything else.
+      androidx:
+        patterns:
+          - 'androidx.*'
+      compose:
+        patterns:
+          - 'androidx.compose*'
+    ignore:
+      # AGP and the Kotlin/KSP trio have to move in lockstep with each other and
+      # with the Compose compiler. Dependabot cannot see that constraint and its
+      # PRs for them never build. Bump these by hand.
+      - dependency-name: 'com.android.tools.build:gradle'
+      - dependency-name: 'org.jetbrains.kotlin:*'
+      - dependency-name: 'com.google.devtools.ksp:*'

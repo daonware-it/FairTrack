@@ -1,0 +1,71 @@
+# CodeQL static analysis for the Kotlin/Java sources.
+#
+# Not on every push to main: CodeQL has to compile the app, which takes minutes.
+# Pull requests and a weekly sweep catch the same problems early enough, and the
+# weekly run also picks up newly published queries for code that never changed.
+
+name: CodeQL
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    # Mondays, 05:17 UTC. Off the hour on purpose: scheduled jobs queue up on
+    # round numbers and GitHub silently drops the overflow.
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions: {}
+
+jobs:
+  analyze:
+    name: Analyze java-kotlin
+    runs-on: ubuntu-latest
+    permissions:
+      # Upload the SARIF results to the Security tab.
+      security-events: write
+      contents: read
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
+
+      # The runner image does not necessarily ship the exact compileSdk.
+      - name: Install Android SDK platform 36
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36" "build-tools;36.0.0" > /dev/null
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3.37.0
+        with:
+          languages: java-kotlin
+          # security-extended adds lower-severity queries the default pack skips.
+          queries: security-extended
+
+      # CodeQL observes the compiler, so it needs a real build. Debug is enough
+      # and avoids dragging signing secrets into an analysis job.
+      - name: Compile debug sources
+        run: ./gradlew --no-daemon :app:compileDebugKotlin :app:compileDebugJavaWithJavac
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3.37.0
+        with:
+          category: /language:java-kotlin
