@@ -39,7 +39,7 @@ android {
         applicationId = "com.fairtrack.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 14
+        versionCode = 16
         versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
