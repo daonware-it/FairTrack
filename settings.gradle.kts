@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FairTrack"
 include(":app")
+include(":benchmark")

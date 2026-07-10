@@ -1,0 +1,124 @@
+# Macrobenchmark: how long does FairTrack take to draw its first frame?
+#
+# Not on pull requests. Benchmarks on a shared CI runner are noisy — the numbers
+# drift with whatever else the host is doing — so a per-PR pass/fail gate would
+# mostly produce false alarms. This runs on demand and weekly, and the results
+# are there to be *compared over time*, not to block a merge.
+#
+# Absolute values from an emulator are not the numbers a user sees on a phone.
+# The trend is what carries information: a jump from one week to the next is a
+# signal, "startup takes 340 ms" on its own is not.
+
+name: Benchmark
+
+on:
+  schedule:
+    # Mondays, 06:23 UTC — after CodeQL, off the hour (GitHub drops overflow
+    # from schedules that all fire at :00).
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  macrobenchmark:
+    name: Startup timing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
+
+      - name: Install Android SDK platform 36
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36" "build-tools;36.0.0" > /dev/null
+
+      # KVM is what makes an x86_64 emulator usable rather than glacial. The
+      # ubuntu runner has the hardware but not the udev rule.
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # API 34 with `aosp_atd`: the automated-test image boots faster and has no
+      # Play Services running in the background to jitter the measurements.
+      - name: Run macrobenchmark on emulator
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        with:
+          api-level: 34
+          target: aosp_atd
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: ./gradlew --no-daemon :benchmark:connectedBenchmarkAndroidTest
+
+      - name: Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: macrobenchmark-results
+          path: |
+            benchmark/build/outputs/connected_android_test_additional_output/
+            benchmark/build/reports/androidTests/
+          retention-days: 90
+          if-no-files-found: warn
+
+      # The JSON holds the medians; surfacing them here saves downloading the
+      # artifact just to see whether anything moved.
+      - name: Summarise timings
+        if: always()
+        run: |
+          shopt -s nullglob globstar
+          files=(benchmark/build/outputs/connected_android_test_additional_output/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No benchmark JSON produced — the run did not get that far." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          {
+            echo "## Startup timings (median, ms)"
+            echo
+            echo "| Benchmark | Median | Min | Max |"
+            echo "| --- | ---: | ---: | ---: |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          for f in "${files[@]}"; do
+            python3 - "$f" >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              data = json.load(fh)
+          for bench in data.get("benchmarks", []):
+              name = bench.get("name", "?")
+              metrics = bench.get("metrics", {})
+              timing = metrics.get("timeToInitialDisplayMs") or next(iter(metrics.values()), {})
+              runs = timing.get("runs") or []
+              median = timing.get("median")
+              lo = min(runs) if runs else timing.get("minimum")
+              hi = max(runs) if runs else timing.get("maximum")
+              fmt = lambda v: f"{v:.1f}" if isinstance(v, (int, float)) else "?"
+              print(f"| {name} | {fmt(median)} | {fmt(lo)} | {fmt(hi)} |")
+          PY
+          done

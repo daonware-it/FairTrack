@@ -72,6 +72,22 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        // Macrobenchmark misst nur dann etwas Aussagekraeftiges, wenn es an
+        // optimiertem Code misst - ein Debug-Build ist um ein Vielfaches
+        // langsamer. Der Release-Typ selbst taugt nicht: Er braucht den
+        // Upload-Key, den weder ein Emulator-Lauf in der CI noch ein
+        // Fremdbeitrag hat. Also ein release-artiger Typ mit Debug-Signatur.
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            // Nicht debuggable: Ein angehaengter Debugger verzerrt jede Messung.
+            isDebuggable = false
+            // Ohne das faellt der Benchmark-Lauf auf den release-Typ des :app
+            // zurueck, den es fuer diese Variante nicht gibt.
+            matchingFallbacks += listOf("release")
+            proguardFiles("benchmark-rules.pro")
+        }
     }
     lint {
         // Die CI wertet den XML-Bericht aus; HTML ist für den Menschen, der danach

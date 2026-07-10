@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Only merged into the `benchmark` build type.
+
+    profileable lets an external process (the Macrobenchmark runner) read this
+    app's traces without making it debuggable, which would skew every timing.
+    Release builds deliberately do not carry this.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <profileable
+            android:shell="true"
+            tools:targetApi="29"
+            xmlns:tools="http://schemas.android.com/tools" />
+    </application>
+
+</manifest>
