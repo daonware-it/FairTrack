@@ -1,5 +1,6 @@
 package com.fairtrack.app.ui.scanner
 
+import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -22,7 +23,9 @@ class BarcodeAnalyzer(private val onBarcode: (String) -> Unit) : ImageAnalysis.A
             .build()
     )
 
-    @OptIn(ExperimentalGetImage::class)
+    // androidx.annotation.OptIn, nicht kotlin.OptIn: Nur das Androidx-Pendant
+    // erkennt der UnsafeOptInUsageError-Lint-Check.
+    @OptIn(markerClass = [ExperimentalGetImage::class])
     override fun analyze(imageProxy: ImageProxy) {
         val media = imageProxy.image
         if (media == null) {

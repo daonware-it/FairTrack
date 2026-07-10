@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fairtrack.app.ui.theme.Spacing
 import java.time.DayOfWeek
 import java.time.format.TextStyle
-import java.util.Locale
 
 /**
  * Selbstgezeichnetes Balkendiagramm der Tages-Kalorien der letzten 7 Tage.
@@ -83,6 +83,10 @@ fun CalorieWeekChart(
             }
         }
 
+        // Über LocalConfiguration statt Locale.getDefault(): Nur so zeichnet Compose
+        // die Wochentags-Kürzel neu, wenn der Nutzer die Sprache umstellt.
+        val locale = LocalConfiguration.current.locales[0]
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,7 +96,7 @@ fun CalorieWeekChart(
             days.forEach { day ->
                 Text(
                     text = DayOfWeek.of(day.dayOfWeekValue)
-                        .getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                        .getDisplayName(TextStyle.SHORT, locale),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
