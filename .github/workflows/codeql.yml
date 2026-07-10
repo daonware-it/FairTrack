@@ -49,8 +49,13 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
 
+      # Dependency cache only. If Gradle were allowed to reuse compiled classes,
+      # the compile step below would report UP-TO-DATE, CodeQL would observe no
+      # compiler at all, and the run dies with "no source code seen during build".
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
+        with:
+          cache-read-only: true
 
       # The runner image does not necessarily ship the exact compileSdk.
       - name: Install Android SDK platform 36
@@ -66,10 +71,16 @@ jobs:
           # security-extended adds lower-severity queries the default pack skips.
           queries: security-extended
 
-      # CodeQL observes the compiler, so it needs a real build. Debug is enough
-      # and avoids dragging signing secrets into an analysis job.
+      # CodeQL extracts source by watching the compiler run, so the compiler has
+      # to actually run: --no-build-cache --rerun-tasks defeats both Gradle's
+      # build cache and its up-to-date checks. Skip either and a warm cache makes
+      # the analysis silently empty rather than failing loudly.
+      #
+      # Debug, not release: an analysis job has no business near signing secrets.
       - name: Compile debug sources
-        run: ./gradlew --no-daemon :app:compileDebugKotlin :app:compileDebugJavaWithJavac
+        run: |
+          ./gradlew --no-daemon --no-build-cache --rerun-tasks \
+            :app:compileDebugKotlin :app:compileDebugJavaWithJavac
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
