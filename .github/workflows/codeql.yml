@@ -1,12 +1,18 @@
 # CodeQL static analysis for the Kotlin/Java sources.
 #
-# Not on every push to main: CodeQL has to compile the app, which takes minutes.
-# Pull requests and a weekly sweep catch the same problems early enough, and the
-# weekly run also picks up newly published queries for code that never changed.
+# Runs on pushes to main, on pull requests, and weekly. It has to compile the app
+# every time, so it is slower than the plain CI job — but the push run is what
+# GitHub uses to populate the Security tab, and the weekly run picks up newly
+# published queries for code that has not changed in months.
 
 name: CodeQL
 
 on:
+  # Both hooks are needed: the pull_request run annotates the diff, while the
+  # push run on main is what populates the Security tab. Without the push hook
+  # GitHub has no baseline and the alerts never appear there.
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   schedule:
@@ -54,7 +60,7 @@ jobs:
             "platforms;android-36" "build-tools;36.0.0" > /dev/null
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3.37.0
+        uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
         with:
           languages: java-kotlin
           # security-extended adds lower-severity queries the default pack skips.
@@ -66,6 +72,6 @@ jobs:
         run: ./gradlew --no-daemon :app:compileDebugKotlin :app:compileDebugJavaWithJavac
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3.37.0
+        uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
         with:
           category: /language:java-kotlin
