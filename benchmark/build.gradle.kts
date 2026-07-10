@@ -12,6 +12,17 @@ android {
         minSdk = 29
         targetSdk = 36
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Macrobenchmark refuses to run on an emulator unless told to, because
+        // emulator timings do not reflect a real device — a change that looks
+        // like a win here can regress an actual phone.
+        //
+        // We suppress it anyway and accept the trade: the CI runner has no phone
+        // attached, and comparing this week's median against last week's on the
+        // same emulator image still catches a startup regression. Never quote
+        // these numbers as "FairTrack starts in X ms" — for that, run the
+        // benchmark on a device, where this argument does nothing.
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
     }
 
     compileOptions {
