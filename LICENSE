@@ -2,94 +2,77 @@ FairTrack Source-Available License (Version 1.0)
 
 Copyright (c) 2026 daonware-it (https://github.com/daonware-it/FairTrack)
 
-Präambel
+Preamble
 --------
-FairTrack ist ein quelloffen einsehbarer Android-Kalorientracker. Der
-Quellcode wird zur Transparenz und für Beiträge veröffentlicht. Diese Lizenz
-erlaubt die private Nutzung und Weiterentwicklung, untersagt jedoch die
-Verbreitung von Kopien ohne deutliche Nennung des Originalprojekts.
+FairTrack is a source-available Android calorie tracker. The source code is
+published for transparency and to enable contributions. This license permits
+private use and further development, but prohibits distributing copies without
+clear attribution to the original project.
 
-1. Begriffsbestimmungen
------------------------
-"Software" bezeichnet den Quellcode, die Build-Skripte, Ressourcen und
-Dokumentation dieses Repositories sowie daraus erzeugte Binärdateien
-(insbesondere APK- und AAB-Dateien).
-"Originalprojekt" bezeichnet das Repository
-https://github.com/daonware-it/FairTrack des Rechteinhabers.
-"Namensnennung" bezeichnet einen deutlich sichtbaren Hinweis in der Form
-"Basiert auf FairTrack (https://github.com/daonware-it/FairTrack)".
+1. Definitions
+--------------
+"Software" means the source code, build scripts, resources and documentation
+of this repository, as well as binaries produced from them (in particular APK
+and AAB files).
+"Original Project" means the rights holder's repository at
+https://github.com/daonware-it/FairTrack.
+"Attribution" means a clearly visible notice in the form "Based on FairTrack
+(https://github.com/daonware-it/FairTrack)".
 
-2. Gestattete Nutzung
----------------------
-Jeder Person wird unentgeltlich gestattet:
-a) die Software einzusehen, herunterzuladen, zu kompilieren und für private,
-   nicht-kommerzielle Zwecke auf eigenen Geräten zu nutzen;
-b) die Software zu verändern und eigene Weiterentwicklungen für private,
-   nicht-kommerzielle Zwecke zu nutzen;
-c) Beiträge (Pull Requests, Issues, Patches) zum Originalprojekt einzureichen.
+2. Permitted Use
+----------------
+Any person is granted, free of charge, the right to:
+a) view, download, compile and use the Software for private, non-commercial
+   purposes on their own devices;
+b) modify the Software and use their own derivative works for private,
+   non-commercial purposes;
+c) submit contributions (pull requests, issues, patches) to the Original
+   Project.
 
-3. Verbreitung nur mit Namensnennung
-------------------------------------
-Jede Weitergabe der Software oder abgeleiteter Werke — im Quell- oder
-Binärformat, entgeltlich oder unentgeltlich, einschließlich der
-Veröffentlichung in App-Stores — ist NUR gestattet, wenn:
-a) die Namensnennung (Ziffer 1) deutlich sichtbar erfolgt, mindestens in der
-   Beschreibung der Veröffentlichung UND in der App selbst (z. B. im
-   "Über"-Bereich);
-b) diese Lizenzdatei unverändert beiliegt;
-c) klar erkennbar ist, welche Änderungen gegenüber dem Originalprojekt
-   vorgenommen wurden.
+3. Distribution Only With Attribution
+-------------------------------------
+Any distribution of the Software or derivative works — in source or binary
+form, whether for a fee or free of charge, including publication in app stores
+— is permitted ONLY if:
+a) the Attribution (Section 1) is clearly visible, at minimum in the
+   description of the release AND within the app itself (e.g. in the "About"
+   section);
+b) this license file is included unchanged;
+c) it is clearly identifiable which changes have been made relative to the
+   Original Project.
 
-4. Untersagte Handlungen
-------------------------
-Ausdrücklich untersagt ist:
-a) die Verbreitung der Software oder abgeleiteter Werke OHNE die
-   Namensnennung nach Ziffer 3 — insbesondere das Veröffentlichen
-   unveränderter oder nur geringfügig veränderter Kopien unter anderem
-   Namen ("Reskins");
-b) das Entfernen oder Unkenntlichmachen von Urheberrechts- und
-   Lizenzhinweisen;
-c) die Nutzung des Namens "FairTrack" oder des Namens des Rechteinhabers
-   zur Bewerbung abgeleiteter Werke in einer Weise, die eine Herkunft vom
-   oder Unterstützung durch den Rechteinhaber suggeriert, ohne dessen
-   vorherige schriftliche Zustimmung.
+4. Prohibited Acts
+------------------
+The following are expressly prohibited:
+a) distributing the Software or derivative works WITHOUT the Attribution
+   under Section 3 — in particular publishing unchanged or only slightly
+   modified copies under another name ("re-skins");
+b) removing or obscuring copyright and license notices;
+c) using the name "FairTrack" or the name of the rights holder to promote
+   derivative works in a manner that suggests origin from or endorsement by
+   the rights holder, without their prior written consent.
 
-5. Kommerzielle Verbreitung
----------------------------
-Die kommerzielle Verbreitung der Software oder abgeleiteter Werke (z. B.
-kostenpflichtige App-Store-Veröffentlichungen, Werbefinanzierung, In-App-
-Käufe) bedarf zusätzlich zu Ziffer 3 der vorherigen schriftlichen Zustimmung
-des Rechteinhabers.
+5. Commercial Distribution
+--------------------------
+Commercial distribution of the Software or derivative works (e.g. paid
+app-store releases, ad-funded distribution, in-app purchases) requires, in
+addition to Section 3, the prior written consent of the rights holder.
 
-6. Datenquellen und Drittkomponenten
-------------------------------------
-Eingebundene Drittbibliotheken sowie genutzte Datenquellen (u. a. Open Food
-Facts) unterliegen ihren jeweils eigenen Lizenzbedingungen; diese bleiben von
-dieser Lizenz unberührt.
-
-7. Beendigung
--------------
-Diese Lizenz erlischt automatisch bei jedem Verstoß gegen die Ziffern 3, 4
-oder 5. Mit dem Erlöschen sind Verbreitung und Nutzung abgeleiteter Werke
-einzustellen.
-
-8. Gewährleistungs- und Haftungsausschluss
+6. Data Sources and Third-Party Components
 ------------------------------------------
-DIE SOFTWARE WIRD "WIE BESEHEN" OHNE JEDE AUSDRÜCKLICHE ODER
-STILLSCHWEIGENDE GEWÄHRLEISTUNG BEREITGESTELLT, EINSCHLIESSLICH — ABER NICHT
-BESCHRÄNKT AUF — DIE GEWÄHRLEISTUNG DER MARKTGÄNGIGKEIT ODER DER EIGNUNG FÜR
-EINEN BESTIMMTEN ZWECK. DER RECHTEINHABER HAFTET NICHT FÜR SCHÄDEN, DIE AUS
-DER NUTZUNG DER SOFTWARE ENTSTEHEN, SOWEIT GESETZLICH ZULÄSSIG. DIE APP
-ERSETZT KEINE MEDIZINISCHE ODER ERNÄHRUNGSBERATUNG.
+Included third-party libraries and the data sources used (including Open Food
+Facts) are subject to their own respective license terms; these remain
+unaffected by this license.
 
----
+7. Termination
+--------------
+This license terminates automatically upon any violation of Sections 3, 4 or
+5. Upon termination, distribution and use of derivative works must cease.
 
-English summary (non-binding, the German text above prevails):
-FairTrack is source-available. Private, non-commercial use, modification and
-contributions are permitted. Distributing the software or derivative works —
-including app-store publishing — is only permitted with clear attribution to
-the original project ("Based on FairTrack,
-https://github.com/daonware-it/FairTrack"), with this license included and
-changes marked. Distributing copies without attribution (re-skins) is
-prohibited. Commercial distribution requires prior written consent. Provided
-"as is", without warranty.
+8. Disclaimer of Warranty and Liability
+----------------------------------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY OR
+FITNESS FOR A PARTICULAR PURPOSE. THE RIGHTS HOLDER SHALL NOT BE LIABLE FOR
+ANY DAMAGES ARISING FROM THE USE OF THE SOFTWARE, TO THE EXTENT PERMITTED BY
+LAW. THE APP IS NOT A SUBSTITUTE FOR MEDICAL OR NUTRITIONAL ADVICE.
