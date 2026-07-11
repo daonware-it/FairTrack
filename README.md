@@ -1,8 +1,13 @@
 # FairTrack
 
+[![Version](https://img.shields.io/badge/version-1.0.1-2ecc87)](https://github.com/daonware-it/FairTrack/releases)
+[![Downloads](https://img.shields.io/github/downloads/daonware-it/FairTrack/total?color=2ecc87&label=downloads)](https://github.com/daonware-it/FairTrack/releases)
+[![Latest release](https://img.shields.io/github/v/release/daonware-it/FairTrack?color=2ecc87)](https://github.com/daonware-it/FairTrack/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Android%206.0%2B-3ddc84)](#download)
+[![Kotlin](https://img.shields.io/badge/Kotlin-Jetpack%20Compose-7f52ff)](https://kotlinlang.org/)
+[![License](https://img.shields.io/badge/license-source--available-f39c12)](LICENSE)
 [![CI](https://github.com/daonware-it/FairTrack/actions/workflows/ci.yml/badge.svg)](https://github.com/daonware-it/FairTrack/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/daonware-it/FairTrack/actions/workflows/codeql.yml/badge.svg)](https://github.com/daonware-it/FairTrack/actions/workflows/codeql.yml)
-[![Latest release](https://img.shields.io/github/v/release/daonware-it/FairTrack)](https://github.com/daonware-it/FairTrack/releases/latest)
 
 An offline-first calorie and nutrition tracker for Android, built with Kotlin and Jetpack Compose.
 
